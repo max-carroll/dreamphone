@@ -1,3 +1,7 @@
+import promptSync from "prompt-sync";
+
+const prompt = promptSync();
+
 class Player {
   playernumber: number;
   cardsinhand: Cards[]; // Assuming cardsinhand can hold any type of data
@@ -419,8 +423,8 @@ let pvp_list = [
 ];
 
 let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
-let in_hand = []; // # initializes player hand as empty
-let discard_pile = []; // # initializes discard pile as empty
+let in_hand: Array<Cards> = []; // # initializes player hand as empty
+let discard_pile: Array<Cards> = []; // # initializes discard pile as empty
 
 // functions;
 function clear_screen() {
@@ -641,18 +645,18 @@ function starting_player(): void {
     );
     const choice: string = prompt();
     if (choice) {
-      let selectedPlayer = null;
+      let selectedPlayer: number | null = null;
       switch (choice.toLowerCase()) {
-        case "one":
+        case "1":
           selectedPlayer = 1;
           break;
-        case "two":
+        case "2":
           selectedPlayer = 2;
           break;
-        case "three":
+        case "3":
           selectedPlayer = 3;
           break;
-        case "four":
+        case "4":
           selectedPlayer = 4;
           break;
         default:
@@ -805,7 +809,7 @@ function use_pvp(): void {
   let selected_pvp: Pvp_Cards;
   let valid_choice: boolean = false;
   while (!valid_choice) {
-    const choice: string = input();
+    const choice: string = prompt();
     if (choice === "exit") {
       console.log("\nExiting PvP.");
       return;
@@ -840,7 +844,7 @@ function use_pvp(): void {
 
   valid_choice = false;
   while (!valid_choice) {
-    const choice: string = input();
+    const choice: string = prompt();
     if (choice === "exit") {
       console.log("\nExiting PvP.");
       return;
@@ -862,7 +866,7 @@ function use_pvp(): void {
       }
       for (const opponent of opponent_list) {
         if (choice.toLowerCase() === opponent.playername.toLowerCase()) {
-          c  opponent_player = opponent;
+          opponent_player = opponent;
           valid_choice = true;
           break;
         }
@@ -880,7 +884,9 @@ function use_pvp(): void {
   );
 
   console.log(
-    `Select a card of ${opponent_player!.playername}'s to curse. Type name or number, or ('exit') to leave.`
+    `Select a card of ${
+      opponent_player!.playername
+    }'s to curse. Type name or number, or ('exit') to leave.`
   );
   for (const card of opponent_player!.cardsinhand) {
     console.log(
@@ -888,10 +894,10 @@ function use_pvp(): void {
     );
   }
 
-  let selected_card: Cards
+  let selected_card: Cards;
   valid_choice = false;
   while (!valid_choice) {
-    const choice: string = input();
+    const choice: string = prompt();
     if (choice === "exit") {
       return;
     }
@@ -928,7 +934,9 @@ function use_pvp(): void {
 
   whos_turn().pvp_this_turn = true;
   console.log(
-    `\nYou have cursed ${opponent_player!.playername}'s '${selected_card!.name}' Boy card with ${selected_pvp!.long_name}.`
+    `\nYou have cursed ${opponent_player!.playername}'s '${
+      selected_card!.name
+    }' Boy card with ${selected_pvp!.long_name}.`
   );
   selected_pvp!.used_on.push(opponent_player!);
   selected_card!.curse_bucket.push(selected_pvp!);
@@ -963,7 +971,7 @@ function call_number(choice: string): Cards | undefined {
     );
 
     while (true) {
-      const dialed_number: string = input();
+      const dialed_number: string = prompt();
 
       if (dialed_number === "leave") {
         break;
@@ -1190,7 +1198,7 @@ function solve(crush: number, number_of_players: number): void {
   let valid_solve_input = false;
 
   while (true) {
-    const solve_choice = input().toLowerCase();
+    const solve_choice = prompt().toLowerCase();
 
     for (const card of card_list) {
       if (
@@ -1225,8 +1233,7 @@ function solve(crush: number, number_of_players: number): void {
 }
 
 function shuffleDeck() {
-
-    game_deck = shuffle([...game_deck])
+  game_deck = shuffle([...game_deck]);
 }
 
 function reshuffle(): void {
@@ -1238,7 +1245,7 @@ function reshuffle(): void {
     for (let i = 0; i < discard_pile.length; i++) {
       game_deck.push(discard_pile.shift()!);
     }
-    shuffleDeck()
+    shuffleDeck();
     console.log(
       "\n" +
         blue_out("The discard pile has been shuffled back to the draw pile.") +
@@ -1281,9 +1288,8 @@ function game_loop(): void {
       ),
       "\n"
     );
-    let choice: string = input().toLowerCase();
-    let last_dialed_boy : Cards | undefined
-
+    let choice: string = prompt().toLowerCase();
+    let last_dialed_boy: Cards | undefined;
 
     if (choice.includes("dial") && choice !== "redial") {
       const last_dialed_boy = call_number(choice);
@@ -1307,9 +1313,9 @@ function game_loop(): void {
           use_pvp();
           break;
         case "show":
-        //   show_deck();
-        //   show_hand();
-        //   show_discard();
+          //   show_deck();
+          //   show_hand();
+          //   show_discard();
           break;
         case "redial":
           if (!last_dialed_boy) {
