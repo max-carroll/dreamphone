@@ -1,6 +1,6 @@
 class Player {
   playernumber: number;
-  cardsinhand: any[]; // Assuming cardsinhand can hold any type of data
+  cardsinhand: Cards[]; // Assuming cardsinhand can hold any type of data
   current_turn: boolean;
   playername: string;
   collected_clues: any; // Assuming collected_clues can hold any type of data
@@ -11,13 +11,13 @@ class Player {
 
   constructor(
     playernumber: number,
-    cardsinhand: any[],
+    cardsinhand: Cards[],
     current_turn: boolean,
     playername: string,
     collected_clues: any,
     dialed_this_turn: boolean,
     guessed_this_turn: boolean,
-    pvp_in_hand: any,
+    pvp_in_hand: Pvp_Cards[],
     pvp_this_turn: any
   ) {
     this.playernumber = playernumber;
@@ -1224,6 +1224,11 @@ function solve(crush: number, number_of_players: number): void {
   }
 }
 
+function shuffleDeck() {
+
+    game_deck = shuffle([...game_deck])
+}
+
 function reshuffle(): void {
   if (discard_pile.length === 0) {
     console.log(
@@ -1233,7 +1238,7 @@ function reshuffle(): void {
     for (let i = 0; i < discard_pile.length; i++) {
       game_deck.push(discard_pile.shift()!);
     }
-    random.shuffle(game_deck);
+    shuffleDeck()
     console.log(
       "\n" +
         blue_out("The discard pile has been shuffled back to the draw pile.") +
@@ -1263,7 +1268,7 @@ function game_loop(): void {
   name_players();
   delay();
   starting_player();
-  shuffle();
+  shuffleDeck();
   starting_deal();
 
   while (true) {
@@ -1277,11 +1282,13 @@ function game_loop(): void {
       "\n"
     );
     let choice: string = input().toLowerCase();
+    let last_dialed_boy : Cards | undefined
+
 
     if (choice.includes("dial") && choice !== "redial") {
       const last_dialed_boy = call_number(choice);
       clue_reveal(last_dialed_boy);
-      dialed_discard(last_dialed_boy);
+      dialed_discard(last_dialed_boy!);
       dialed_draw();
       choice = "null";
     }
@@ -1300,9 +1307,9 @@ function game_loop(): void {
           use_pvp();
           break;
         case "show":
-          show_deck();
-          show_hand();
-          show_discard();
+        //   show_deck();
+        //   show_hand();
+        //   show_discard();
           break;
         case "redial":
           if (!last_dialed_boy) {
