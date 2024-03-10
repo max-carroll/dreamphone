@@ -32,14 +32,14 @@ class Player {
   }
 }
 
-player1 = Player(1, [], False, "", [], False, False, [], False);
-player2 = Player(2, [], False, "", [], False, False, [], False);
-player3 = Player(3, [], False, "", [], False, False, [], False);
-player4 = Player(4, [], False, "", [], False, False, [], False);
+let player1 = new Player(1, [], false, "", [], false, false, [], false);
+let player2 = new Player(2, [], false, "", [], false, false, [], false);
+let player3 = new Player(3, [], false, "", [], false, false, [], false);
+let player4 = new Player(4, [], false, "", [], false, false, [], false);
 
-all_player_list = [player1, player2, player3, player4]; // all possible players in the game
-player_list = []; // a list built out by the player's choice of player num
-crush = 0; // initalizes game crush global var
+let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
+let player_list = []; // a list built out by the player's choice of player num
+let crush = 0; // initalizes game crush global var
 
 class Cards {
   name: string;
@@ -76,7 +76,7 @@ class Cards {
 }
 
 // building Cards objects:
-c0 = Cards(
+const c0 = new Cards(
   "Dave",
   "555-1111",
   "Crosstown Mall",
@@ -84,10 +84,10 @@ c0 = Cards(
   "Cookies",
   "Blue Jeans",
   "",
-  True,
+  true,
   []
 );
-c1 = Cards(
+const c1 = new Cards(
   "George",
   "555-1233",
   "Crosstown Mall",
@@ -95,10 +95,10 @@ c1 = Cards(
   "Ice Cream",
   "Tie",
   "",
-  True,
+  true,
   []
 );
-c2 = Cards(
+const c2 = new Cards(
   "Dale",
   "555-4566",
   "Crosstown Mall",
@@ -106,10 +106,10 @@ c2 = Cards(
   "Ice Cream",
   "Jacket",
   "",
-  True,
+  true,
   []
 );
-c3 = Cards(
+const c3 = new Cards(
   "Alan",
   "555-7899",
   "Crosstown Mall",
@@ -117,10 +117,10 @@ c3 = Cards(
   "Cookies",
   "Tie",
   "",
-  True,
+  true,
   []
 );
-c4 = Cards(
+const c4 = new Cards(
   "James",
   "555-2588",
   "E.A.T.S. Snack Shop",
@@ -128,10 +128,10 @@ c4 = Cards(
   "Hot Dogs",
   "Jacket",
   "",
-  True,
+  true,
   []
 );
-c5 = Cards(
+const c5 = new Cards(
   "Phil",
   "555-3333",
   "E.A.T.S. Snack Shop",
@@ -139,10 +139,10 @@ c5 = Cards(
   "Pizza",
   "Glasses",
   "",
-  True,
+  true,
   []
 );
-c6 = Cards(
+const c6 = new Cards(
   "Bruce",
   "555-3699",
   "E.A.T.S. Snack Shop",
@@ -150,10 +150,10 @@ c6 = Cards(
   "Pizza",
   "Tie",
   "",
-  True,
+  true,
   []
 );
-c7 = Cards(
+const c7 = new Cards(
   "Tyler",
   "555-1477",
   "E.A.T.S. Snack Shop",
@@ -161,10 +161,10 @@ c7 = Cards(
   "Hot Dogs",
   "Blue Jeans",
   "",
-  True,
+  true,
   []
 );
-c8 = Cards(
+const c8 = new Cards(
   "Jamal",
   "555-9877",
   "Reel Movies",
@@ -172,10 +172,10 @@ c8 = Cards(
   "Candy",
   "Tie",
   "",
-  True,
+  true,
   []
 );
-c9 = Cards(
+const c9 = new Cards(
   "Gary",
   "555-3211",
   "Reel Movies",
@@ -183,10 +183,10 @@ c9 = Cards(
   "Popcorn",
   "Blue Jeans",
   "",
-  True,
+  true,
   []
 );
-c10 = Cards(
+const c10 = new Cards(
   "Dan",
   "555-7777",
   "Reel Movies",
@@ -194,10 +194,10 @@ c10 = Cards(
   "Candy",
   "Blue Jeans",
   "",
-  True,
+  true,
   []
 );
-c11 = Cards(
+const c11 = new Cards(
   "Spencer",
   "555-6544",
   "Reel Movies",
@@ -205,10 +205,10 @@ c11 = Cards(
   "Popcorn",
   "Jacket",
   "",
-  True,
+  true,
   []
 );
-c12 = Cards(
+const c12 = new Cards(
   "Mark",
   "555-8522",
   "Woodland Park",
@@ -216,10 +216,10 @@ c12 = Cards(
   "null",
   "Hat",
   "",
-  True,
+  true,
   []
 );
-c13 = Cards(
+const c13 = new Cards(
   "Jason",
   "555-7411",
   "Woodland Park",
@@ -227,10 +227,10 @@ c13 = Cards(
   "null",
   "Glasses",
   "",
-  True,
+  true,
   []
 );
-c14 = Cards(
+const c14 = new Cards(
   "Steve",
   "555-9999",
   "Woodland Park",
@@ -238,10 +238,10 @@ c14 = Cards(
   "null",
   "Jacket",
   "",
-  True,
+  true,
   []
 );
-c15 = Cards(
+const c15 = new Cards(
   "John",
   "555-9633",
   "Woodland Park",
@@ -249,10 +249,10 @@ c15 = Cards(
   "null",
   "Anything Yellow",
   "",
-  True,
+  true,
   []
 );
-c16 = Cards(
+const c16 = new Cards(
   "Paul",
   "555-5515",
   "High Tide Beach",
@@ -260,10 +260,10 @@ c16 = Cards(
   "null",
   "Anything Yellow",
   "",
-  True,
+  true,
   []
 );
-c17 = Cards(
+const c17 = new Cards(
   "Tony",
   "555-2442",
   "High Tide Beach",
@@ -271,10 +271,10 @@ c17 = Cards(
   "null",
   "Hat",
   "",
-  True,
+  true,
   []
 );
-c18 = Cards(
+const c18 = new Cards(
   "Wayne",
   "555-3535",
   "High Tide Beach",
@@ -282,10 +282,10 @@ c18 = Cards(
   "null",
   "Anything Yellow",
   "",
-  True,
+  true,
   []
 );
-c19 = Cards(
+const c19 = new Cards(
   "Mike",
   "555-2226",
   "High Tide Beach",
@@ -293,10 +293,10 @@ c19 = Cards(
   "null",
   "Hat",
   "",
-  True,
+  true,
   []
 );
-c20 = Cards(
+const c20 = new Cards(
   "Scott",
   "555-5599",
   "Jim's Gym",
@@ -304,10 +304,10 @@ c20 = Cards(
   "null",
   "Anything Yellow",
   "",
-  True,
+  true,
   []
 );
-c21 = Cards(
+const c21 = new Cards(
   "Bob",
   "555-4884",
   "Jim's Gym",
@@ -315,10 +315,10 @@ c21 = Cards(
   "null",
   "Glasses",
   "",
-  True,
+  true,
   []
 );
-c22 = Cards(
+const c22 = new Cards(
   "Carlos",
   "555-6668",
   "Jim's Gym",
@@ -326,10 +326,10 @@ c22 = Cards(
   "null",
   "Hat",
   "",
-  True,
+  true,
   []
 );
-c23 = Cards(
+const c23 = new Cards(
   "Matt",
   "555-7557",
   "Jim's Gym",
@@ -337,12 +337,12 @@ c23 = Cards(
   "null",
   "Glasses",
   "",
-  True,
+  true,
   []
 );
 
 // ##global stuff##
-card_list = [
+const card_list = [
   c0,
   c1,
   c2,
@@ -368,7 +368,7 @@ card_list = [
   c22,
   c23,
 ];
-// # this is the master list of cards in the deck. a way to reference a var list containing all card object names.
+// # this is the master list of new cards in the deck. a way to reference a var list containing all card object names.
 // # tried to find a less brute force way to do this but so far no luck.
 
 class Pvp_Cards {
@@ -390,20 +390,20 @@ class Pvp_Cards {
   }
 }
 
-pvp0 = Pvp_Cards("hangup", player1, [], "Mom Says Hang up!");
-pvp1 = Pvp_Cards("hangup", player2, [], "Mom Says Hang up!");
-pvp2 = Pvp_Cards("hangup", player3, [], "Mom Says Hang up!");
-pvp3 = Pvp_Cards("hangup", player4, [], "Mom Says Hang up!");
-pvp4 = Pvp_Cards("share_secret", player1, [], "Share a Secret");
-pvp5 = Pvp_Cards("share_secret", player2, [], "Share a Secret");
-pvp6 = Pvp_Cards("share_secret", player3, [], "Share a Secret");
-pvp7 = Pvp_Cards("share_secret", player4, [], "Share a Secret");
-pvp8 = Pvp_Cards("speakerphone", player1, [], "Speakerphone");
-pvp9 = Pvp_Cards("speakerphone", player2, [], "Speakerphone");
-pvp10 = Pvp_Cards("speakerphone", player3, [], "Speakerphone");
-pvp11 = Pvp_Cards("speakerphone", player4, [], "Speakerphone");
+let pvp0 = new Pvp_Cards("hangup", player1, [], "Mom Says Hang up!");
+let pvp1 = new Pvp_Cards("hangup", player2, [], "Mom Says Hang up!");
+let pvp2 = new Pvp_Cards("hangup", player3, [], "Mom Says Hang up!");
+let pvp3 = new Pvp_Cards("hangup", player4, [], "Mom Says Hang up!");
+let pvp4 = new Pvp_Cards("share_secret", player1, [], "Share a Secret");
+let pvp5 = new Pvp_Cards("share_secret", player2, [], "Share a Secret");
+let pvp6 = new Pvp_Cards("share_secret", player3, [], "Share a Secret");
+let pvp7 = new Pvp_Cards("share_secret", player4, [], "Share a Secret");
+let pvp8 = new Pvp_Cards("speakerphone", player1, [], "Speakerphone");
+let pvp9 = new Pvp_Cards("speakerphone", player2, [], "Speakerphone");
+let pvp10 = new Pvp_Cards("speakerphone", player3, [], "Speakerphone");
+let pvp11 = new Pvp_Cards("speakerphone", player4, [], "Speakerphone");
 
-pvp_list = [
+let pvp_list = [
   pvp0,
   pvp1,
   pvp2,
@@ -418,11 +418,11 @@ pvp_list = [
   pvp11,
 ];
 
-game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
-in_hand = []; // # initializes player hand as empty
-discard_pile = []; // # initializes discard pile as empty
+let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
+let in_hand = []; // # initializes player hand as empty
+let discard_pile = []; // # initializes discard pile as empty
 
-#functions;
+// functions;
 function clear_screen() {
   /**
  * # Clear screen using click.clear() function
@@ -440,17 +440,29 @@ function long_delay() {}
 function blue_out(text) {
   // red_out is how i am crossing out entries in the notepad
 
-  return Back.LIGHTBLACK_EX + Fore.BLUE + text + Style.RESET_ALL;
+  return text;
 }
 function red_out(text) {
   // red_out is how i am crossing out entries in the notepad
 
-  return Back.RED + Fore.WHITE + text + Style.RESET_ALL;
+  return text;
 }
 function white_out(text) {
   // red_out is how i am crossing out entries in the notepad
 
-  return Back.WHITE + Fore.BLACK + text + Style.RESET_ALL;
+  return text;
+}
+
+class PrettyTable {
+  constructor(private arry: Array<string>) {}
+
+  public add_row(arry: Array<string>) {
+    // todo
+  }
+
+  public toString() {
+    // TODO
+  }
 }
 
 function boy_attribute_table(): void {
@@ -482,7 +494,6 @@ function boy_attribute_table(): void {
     if (card.food === "null") food = ""; // Removing null entries for food sport weirdness
     notepad.add_row([name, hangout, sport + food, clothing, listname]); // Adds rows queued up for printing
   }
-  notepad.align = "l"; // Aligns the table to the left
   clear_screen();
   console.log(notepad.toString()); // Prints notepad
   prompt("Press Enter to continue...");
@@ -500,8 +511,8 @@ function new_game_crush(): number {
     if (card.clothing !== "null") clue_list.push(card.clothing);
   }
 
-  const uniqueClues = Array.from(new Set(clue_list)); // removes all duplicate entries from the list
-  shuffle(uniqueClues); // shuffles clue list
+  let uniqueClues = Array.from(new Set(clue_list)); // removes all duplicate entries from the list
+  uniqueClues = shuffle(uniqueClues); // shuffles clue list
 
   for (let i = 0; i < uniqueClues.length; i++) {
     // distributes all clues to all cards' "clue to reveal" player object attribute
@@ -1215,12 +1226,6 @@ function solve(crush: number, number_of_players: number): void {
   }
 }
 
-function shuffle(): void {
-  random.shuffle(game_deck);
-  console.log("\nCards in the game deck have been shuffled.");
-  delay();
-}
-
 function reshuffle(): void {
   if (discard_pile.length === 0) {
     console.log(
@@ -1323,3 +1328,23 @@ function game_loop(): void {
 }
 
 game_loop();
+
+export function shuffle<T>(array: T[]): T[] {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
