@@ -38,7 +38,7 @@ let player3 = new Player(3, [], false, "", [], false, false, [], false);
 let player4 = new Player(4, [], false, "", [], false, false, [], false);
 
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
-let player_list = []; // a list built out by the player's choice of player num
+let player_list: Array<Player> = []; // a list built out by the player's choice of player num
 let crush = 0; // initalizes game crush global var
 
 class Cards {
@@ -579,9 +579,7 @@ function print_whos_turn(): Player {
   for (const player of player_list) {
     if (player.current_turn === true) {
       console.log(
-        `\n${Back.LIGHTBLACK_EX + Fore.BLUE}It is ${
-          player.playername
-        }'s turn (Player ${player.playernumber}).${Style.RESET_ALL}\n`
+        `\nIt is ${player.playername}'s turn (Player ${player.playernumber})`
       );
       return player;
     }
@@ -683,9 +681,9 @@ function print_current_player_hand(): void {
     console.log(`${card.name} - Phone#: ${card.phonenum}`);
     short_delay();
   }
-  process.stdout.write("PvP: ");
+  console.log("PvP: ");
   for (const card of whos_turn().pvp_in_hand) {
-    process.stdout.write(`|${card.long_name}| `);
+    console.log(`|${card.long_name}| `);
   }
   console.log();
 }
@@ -727,10 +725,8 @@ function share_a_secret(last_dialed_boy: any): string {
   );
   long_delay();
   console.log(
-    Back.RED + Fore.WHITE,
     `Your revealed clue from ${last_dialed_boy.name} ` +
       `will also be added to their notepad. However, you will gain possession of their expended |Share a Secret| PvP card.`,
-    Style.RESET_ALL,
     "\n"
   );
   long_delay();
@@ -745,9 +741,7 @@ function mom_says_hang_up(last_dialed_boy: any): string {
   );
   long_delay();
   console.log(
-    Back.RED + Fore.WHITE,
     `You must discard your ${last_dialed_boy.name} and lose a turn.`,
-    Style.RESET_ALL,
     "\n"
   );
   long_delay();
@@ -761,10 +755,8 @@ function speakerphone(last_dialed_boy: any): string {
       `(Player ${last_dialed_boy.curse_bucket[0].player_owner.playernumber}) has cursed your ${last_dialed_boy.name} card with |Speakerphone|!`
   );
   console.log(
-    Back.RED + Fore.WHITE,
     `Your revealed clue from ${last_dialed_boy.name} ` +
       `will also be added to every player's notepad.`,
-    Style.RESET_ALL,
     "\n"
   );
   long_delay();
@@ -773,7 +765,7 @@ function speakerphone(last_dialed_boy: any): string {
 }
 
 function use_pvp(): void {
-  const opponent_list: Player[] = copy(player_list);
+  const opponent_list: Player[] = [...player_list];
   opponent_list.splice(opponent_list.indexOf(whos_turn()), 1); // Remove current player from the opponent list
 
   const op_player_nums: number[] = opponent_list.map(
@@ -810,6 +802,7 @@ function use_pvp(): void {
     );
   }
 
+  let selected_pvp: Pvp_Cards;
   let valid_choice: boolean = false;
   while (!valid_choice) {
     const choice: string = input();
@@ -835,11 +828,15 @@ function use_pvp(): void {
   }
 
   console.log(
-    `Choose a player to curse with ${selected_pvp.long_name}. Type name or number, or ('exit') to leave.`
+    `Choose a player to curse with ${
+      selected_pvp!.long_name
+    }. Type name or number, or ('exit') to leave.`
   );
   for (const opponent of opponent_list) {
     console.log(`${opponent.playernumber} - ${opponent.playername}`);
   }
+
+  let opponent_player: Player;
 
   valid_choice = false;
   while (!valid_choice) {
@@ -854,7 +851,7 @@ function use_pvp(): void {
       }
       for (const opponent of opponent_list) {
         if (parseInt(choice) === opponent.playernumber) {
-          const opponent_player: Player = opponent;
+          opponent_player = opponent;
           valid_choice = true;
           break;
         }
@@ -865,7 +862,7 @@ function use_pvp(): void {
       }
       for (const opponent of opponent_list) {
         if (choice.toLowerCase() === opponent.playername.toLowerCase()) {
-          const opponent_player: Player = opponent;
+          c  opponent_player = opponent;
           valid_choice = true;
           break;
         }
@@ -873,24 +870,25 @@ function use_pvp(): void {
     }
   }
 
-  console.log(`You have selected ${opponent_player.playername}.\n`);
+  console.log(`You have selected ${opponent_player!.playername}.\n`);
 
-  const op_player_card_names: string[] = opponent_player.cardsinhand.map(
+  const op_player_card_names: string[] = opponent_player!.cardsinhand.map(
     (card) => card.name.toLowerCase()
   );
-  const op_player_card_nums: number[] = opponent_player.cardsinhand.map(
+  const op_player_card_nums: number[] = opponent_player!.cardsinhand.map(
     (_, index) => index
   );
 
   console.log(
-    `Select a card of ${opponent_player.playername}'s to curse. Type name or number, or ('exit') to leave.`
+    `Select a card of ${opponent_player!.playername}'s to curse. Type name or number, or ('exit') to leave.`
   );
-  for (const card of opponent_player.cardsinhand) {
+  for (const card of opponent_player!.cardsinhand) {
     console.log(
-      `${opponent_player.cardsinhand.indexOf(card)} - |${card.name}|`
+      `${opponent_player!.cardsinhand.indexOf(card)} - |${card.name}|`
     );
   }
 
+  let selected_card: Cards
   valid_choice = false;
   while (!valid_choice) {
     const choice: string = input();
@@ -901,9 +899,9 @@ function use_pvp(): void {
       if (!op_player_card_nums.includes(parseInt(choice))) {
         console.log("Invalid Opponent Card number, try again.");
       }
-      for (const card of opponent_player.cardsinhand) {
-        if (parseInt(choice) === opponent_player.cardsinhand.indexOf(card)) {
-          const selected_card: Cards = card;
+      for (const card of opponent_player!.cardsinhand) {
+        if (parseInt(choice) === opponent_player!.cardsinhand.indexOf(card)) {
+          selected_card = card;
           valid_choice = true;
           break;
         }
@@ -912,15 +910,15 @@ function use_pvp(): void {
       if (!op_player_card_names.includes(choice.toLowerCase())) {
         console.log("Invalid Opponent Card name, try again.");
       }
-      for (const card of opponent_player.cardsinhand) {
+      for (const card of opponent_player!.cardsinhand) {
         if (choice.toLowerCase() === card.name.toLowerCase()) {
-          const selected_card: Cards = card;
+          selected_card = card;
           valid_choice = true;
           break;
         }
       }
     }
-    if (selected_card.curse_bucket.length > 0) {
+    if (selected_card!.curse_bucket.length > 0) {
       console.log(
         "Sorry, this card is already cursed. Try again on another selection."
       );
@@ -930,12 +928,12 @@ function use_pvp(): void {
 
   whos_turn().pvp_this_turn = true;
   console.log(
-    `\nYou have cursed ${opponent_player.playername}'s '${selected_card.name}' Boy card with ${selected_pvp.long_name}.`
+    `\nYou have cursed ${opponent_player!.playername}'s '${selected_card!.name}' Boy card with ${selected_pvp!.long_name}.`
   );
-  selected_pvp.used_on.push(opponent_player);
-  selected_card.curse_bucket.push(selected_pvp);
+  selected_pvp!.used_on.push(opponent_player!);
+  selected_card!.curse_bucket.push(selected_pvp!);
   whos_turn().pvp_in_hand.splice(
-    whos_turn().pvp_in_hand.indexOf(selected_pvp),
+    whos_turn().pvp_in_hand.indexOf(selected_pvp!),
     1
   );
   console.log("The spent PvP card has been removed from your hand.");
