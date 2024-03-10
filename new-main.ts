@@ -441,17 +441,17 @@ function short_delay() {}
 function long_delay() {}
 
 // Some TEXT STYLE stuff
-function blue_out(text) {
+function blue_out(text: string) {
   // red_out is how i am crossing out entries in the notepad
 
   return text;
 }
-function red_out(text) {
+function red_out(text: string) {
   // red_out is how i am crossing out entries in the notepad
 
   return text;
 }
-function white_out(text) {
+function white_out(text: string) {
   // red_out is how i am crossing out entries in the notepad
 
   return text;
@@ -595,7 +595,8 @@ function set_number_of_players(): number {
   console.log("How many players would like to play (1 - 4)?");
   while (true) {
     try {
-      const num: number = parseInt(prompt());
+      const userINput = prompt("");
+      const num: number = parseInt(userINput, 10);
       if (num === 1) {
         console.log("\nYou have selected 1 player.");
         delay();
@@ -619,7 +620,7 @@ function set_number_of_players(): number {
 function name_players(): void {
   for (const player of player_list) {
     console.log(`\nPlease give Player ${player.playernumber} a name.`);
-    const name: string = prompt();
+    const name: string = prompt("");
     player.playername = name;
   }
 
@@ -643,7 +644,7 @@ function starting_player(): void {
     console.log(
       "\nPlease choose the starting player by entering their player number."
     );
-    const choice: string = prompt();
+    const choice: string = prompt("");
     if (choice) {
       let selectedPlayer: number | null = null;
       switch (choice.toLowerCase()) {
@@ -809,7 +810,7 @@ function use_pvp(): void {
   let selected_pvp: Pvp_Cards;
   let valid_choice: boolean = false;
   while (!valid_choice) {
-    const choice: string = prompt();
+    const choice: string = prompt("");
     if (choice === "exit") {
       console.log("\nExiting PvP.");
       return;
@@ -844,7 +845,7 @@ function use_pvp(): void {
 
   valid_choice = false;
   while (!valid_choice) {
-    const choice: string = prompt();
+    const choice: string = prompt("");
     if (choice === "exit") {
       console.log("\nExiting PvP.");
       return;
@@ -897,7 +898,7 @@ function use_pvp(): void {
   let selected_card: Cards;
   valid_choice = false;
   while (!valid_choice) {
-    const choice: string = prompt();
+    const choice: string = prompt("");
     if (choice === "exit") {
       return;
     }
@@ -971,7 +972,7 @@ function call_number(choice: string): Cards | undefined {
     );
 
     while (true) {
-      const dialed_number: string = prompt();
+      const dialed_number: string = prompt("");
 
       if (dialed_number === "leave") {
         break;
@@ -1198,7 +1199,7 @@ function solve(crush: number, number_of_players: number): void {
   let valid_solve_input = false;
 
   while (true) {
-    const solve_choice = prompt().toLowerCase();
+    const solve_choice = prompt("").toLowerCase();
 
     for (const card of card_list) {
       if (
@@ -1288,7 +1289,7 @@ function game_loop(): void {
       ),
       "\n"
     );
-    let choice: string = prompt().toLowerCase();
+    let choice: string = prompt("").toLowerCase();
     let last_dialed_boy: Cards | undefined;
 
     if (choice.includes("dial") && choice !== "redial") {
