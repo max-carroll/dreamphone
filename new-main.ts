@@ -1,7 +1,6 @@
 import promptSync from "prompt-sync";
 import { shuffle } from "./utils";
-import { red_out, clear_screen, blue_out } from "./old-utils";
-import { boy_attribute_table } from "./old-utils";
+// import { , clear_screen,  } from "./old-utils";
 
 export const prompt = promptSync();
 
@@ -47,8 +46,7 @@ let player4 = new Player(4, [], false, "", [], false, false, [], false);
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num
 let crushIndex = 0; // initalizes game crush global var
-let crushCard : Card
-
+let crushCard: Card;
 
 export class Card {
   name: string;
@@ -433,13 +431,12 @@ let pvp_list = [
 let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
 let in_hand: Array<Card> = []; // # initializes player hand as empty
 let discard_pile: Array<Card> = []; // # initializes discard pile as empty
-export let number_of_players = 0;
-
+let number_of_players = 0;
 
 export function new_game_crush(): number {
   const clue_list: string[] = []; // makes bucket to hold all valid clues in
   crushIndex = Math.floor(Math.random() * card_list.length); // rng a boy from the card list to be the crush, adjusting len from starting at 1 while list index starts at 0
-  crushCard = card_list[crushIndex]
+  crushCard = card_list[crushIndex];
 
   for (const card of card_list) {
     // creates a list of all possible clues in clue_list, removing "null" entries for food sport weirdness
@@ -456,7 +453,7 @@ export function new_game_crush(): number {
     // distributes all clues to all cards' "clue to reveal" player object attribute
     card_list[i].clue_to_reveal = uniqueClues[i];
   }
-  return crush;
+  return crushIndex;
 }
 
 export function starting_deal(): void {
@@ -494,8 +491,6 @@ export function starting_deal(): void {
       "All Players have drawn 3 boy cards from the deck,\nand have 3 PvP cards in hand."
     );
     console.log("Starting Game...");
-
-    clear_screen();
   }
 }
 
@@ -868,10 +863,9 @@ export function call_number(
   if (whos_turn().dialed_this_turn === false) {
     let valid_call: boolean = false;
 
-    if (!isPlayerGame) {
-      if 
-    }
-
+    // if (!isPlayerGame) {
+    //   if
+    // }
 
     for (const card of whos_turn().cardsinhand) {
       if (
@@ -928,7 +922,9 @@ export function call_number(
   return undefined;
 }
 
-export function clue_reveal(last_dialed_boy: Card | undefined): string | undefined {
+export function clue_reveal(
+  last_dialed_boy: Card | undefined
+): string | undefined {
   try {
     last_dialed_boy;
   } catch (error) {
@@ -938,7 +934,6 @@ export function clue_reveal(last_dialed_boy: Card | undefined): string | undefin
   if (!last_dialed_boy) return;
 
   let response: string | undefined;
-
 
   // Rejection check:
   if (
@@ -973,22 +968,17 @@ export function clue_reveal(last_dialed_boy: Card | undefined): string | undefin
 
   if (last_dialed_boy.first_call) {
     console.log(
-      blue_out(
-        `Hello? This is ${last_dialed_boy.name}. You want to know about your crush?`
-      )
+      `Hello? This is ${last_dialed_boy.name}. You want to know about your crush?`
     );
   } else {
-    console.log(blue_out("You again? I already told you..."));
+    console.log("You again? I already told you...");
   }
 
-  if (response === "hangout_reveal")
-    console.log(blue_out("I know where he hangs out,"));
-  if (response === "sport_reveal")
-    console.log(blue_out("He is very athletic,"));
-  if (response === "food_reveal")
-    console.log(blue_out("He eats a lot of food,"));
+  if (response === "hangout_reveal") console.log("I know where he hangs out,");
+  if (response === "sport_reveal") console.log("He is very athletic,");
+  if (response === "food_reveal") console.log("He eats a lot of food,");
   if (response === "clothing_reveal")
-    console.log(blue_out("He looks good in whatever he wears,"));
+    console.log("He looks good in whatever he wears,");
 
   let grammar: string = "";
   if (["Hat", "Jacket", "Tie"].includes(last_dialed_boy.clue_to_reveal)) {
@@ -997,28 +987,22 @@ export function clue_reveal(last_dialed_boy: Card | undefined): string | undefin
 
   if (response === "hangout_reveal")
     console.log(
-      red_out(`but he doesn't hang out at ${last_dialed_boy.clue_to_reveal}.`),
+      `but he doesn't hang out at ${last_dialed_boy.clue_to_reveal}.`,
       "\n"
     );
   if (response === "sport_reveal")
     console.log(
-      red_out(
-        `but he doesn't like ${last_dialed_boy.clue_to_reveal.toLowerCase()}.`
-      ),
+      `but he doesn't like ${last_dialed_boy.clue_to_reveal.toLowerCase()}.`,
       "\n"
     );
   if (response === "food_reveal")
     console.log(
-      red_out(
-        `but he hates the taste of ${last_dialed_boy.clue_to_reveal.toLowerCase()}.`
-      ),
+      `but he hates the taste of ${last_dialed_boy.clue_to_reveal.toLowerCase()}.`,
       "\n"
     );
   if (response === "clothing_reveal")
     console.log(
-      red_out(
-        `but he doesn't wear ${grammar} ${last_dialed_boy.clue_to_reveal.toLowerCase()}.`
-      ),
+      `but he doesn't wear ${grammar} ${last_dialed_boy.clue_to_reveal.toLowerCase()}.`,
       "\n"
     );
 
@@ -1084,7 +1068,6 @@ export function end_turn(number_of_players: number): void {
     for (const card of card_list) {
       card.first_call = true;
     }
-    clear_screen();
   }
 }
 
@@ -1100,7 +1083,10 @@ export function count(): void {
   console.log(`Discard Pile: ${discard_pile.length}`);
 }
 
-export function solve(guessedCrushIndex: number, number_of_players: number): void {
+export function solve(
+  guessedCrushIndex: number,
+  number_of_players: number
+): void {
   if (whos_turn().guessed_this_turn) {
     console.log("You cannot guess more than once per turn.");
     return;
@@ -1161,9 +1147,7 @@ function reshuffle(): void {
     }
     shuffleDeck();
     console.log(
-      "\n" +
-        blue_out("The discard pile has been shuffled back to the draw pile.") +
-        "\n"
+      "\n" + "The discard pile has been shuffled back to the draw pile." + "\n"
     );
   }
 }
@@ -1237,7 +1221,7 @@ function playerless_game_loop(): void {
           }
           break;
         case "notepad":
-          boy_attribute_table(); // MAX: Required for stats only
+          // boy_attribute_table(); // MAX: Required for stats only
           break;
         case "end":
           end_turn(number_of_players);

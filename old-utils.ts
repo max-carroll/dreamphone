@@ -1,6 +1,5 @@
 import {
   new_game_crush,
-  number_of_players,
   set_number_of_players,
   name_players,
   starting_player,
@@ -20,7 +19,6 @@ import {
   end_turn,
 } from "./new-main";
 import { card_list, whos_turn, prompt } from "./new-main";
-import { boy_attribute_table } from "./old-utils";
 
 // functions;
 export function clear_screen() {
