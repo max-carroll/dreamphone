@@ -1,13 +1,13 @@
 import promptSync from "prompt-sync";
 import { shuffle } from "./utils";
 import { red_out, clear_screen, blue_out } from "./old-utils";
-import { PrettyTable } from "./old-utils";
+import { boy_attribute_table } from "./old-utils";
 
-const prompt = promptSync();
+export const prompt = promptSync();
 
 class Player {
   playernumber: number;
-  cardsinhand: Cards[]; // Assuming cardsinhand can hold any type of data
+  cardsinhand: Card[]; // Assuming cardsinhand can hold any type of data
   current_turn: boolean;
   playername: string;
   collected_clues: any; // Assuming collected_clues can hold any type of data
@@ -18,7 +18,7 @@ class Player {
 
   constructor(
     playernumber: number,
-    cardsinhand: Cards[],
+    cardsinhand: Card[],
     current_turn: boolean,
     playername: string,
     collected_clues: any,
@@ -46,9 +46,9 @@ let player4 = new Player(4, [], false, "", [], false, false, [], false);
 
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num
-let crush = 0; // initalizes game crush global var
+let crushIndex = 0; // initalizes game crush global var
 
-class Cards {
+class Card {
   name: string;
   phonenum: string;
   hangout: string;
@@ -83,7 +83,7 @@ class Cards {
 }
 
 // building Cards objects:
-const c0 = new Cards(
+const c0 = new Card(
   "Dave",
   "555-1111",
   "Crosstown Mall",
@@ -94,7 +94,7 @@ const c0 = new Cards(
   true,
   []
 );
-const c1 = new Cards(
+const c1 = new Card(
   "George",
   "555-1233",
   "Crosstown Mall",
@@ -105,7 +105,7 @@ const c1 = new Cards(
   true,
   []
 );
-const c2 = new Cards(
+const c2 = new Card(
   "Dale",
   "555-4566",
   "Crosstown Mall",
@@ -116,7 +116,7 @@ const c2 = new Cards(
   true,
   []
 );
-const c3 = new Cards(
+const c3 = new Card(
   "Alan",
   "555-7899",
   "Crosstown Mall",
@@ -127,7 +127,7 @@ const c3 = new Cards(
   true,
   []
 );
-const c4 = new Cards(
+const c4 = new Card(
   "James",
   "555-2588",
   "E.A.T.S. Snack Shop",
@@ -138,7 +138,7 @@ const c4 = new Cards(
   true,
   []
 );
-const c5 = new Cards(
+const c5 = new Card(
   "Phil",
   "555-3333",
   "E.A.T.S. Snack Shop",
@@ -149,7 +149,7 @@ const c5 = new Cards(
   true,
   []
 );
-const c6 = new Cards(
+const c6 = new Card(
   "Bruce",
   "555-3699",
   "E.A.T.S. Snack Shop",
@@ -160,7 +160,7 @@ const c6 = new Cards(
   true,
   []
 );
-const c7 = new Cards(
+const c7 = new Card(
   "Tyler",
   "555-1477",
   "E.A.T.S. Snack Shop",
@@ -171,7 +171,7 @@ const c7 = new Cards(
   true,
   []
 );
-const c8 = new Cards(
+const c8 = new Card(
   "Jamal",
   "555-9877",
   "Reel Movies",
@@ -182,7 +182,7 @@ const c8 = new Cards(
   true,
   []
 );
-const c9 = new Cards(
+const c9 = new Card(
   "Gary",
   "555-3211",
   "Reel Movies",
@@ -193,7 +193,7 @@ const c9 = new Cards(
   true,
   []
 );
-const c10 = new Cards(
+const c10 = new Card(
   "Dan",
   "555-7777",
   "Reel Movies",
@@ -204,7 +204,7 @@ const c10 = new Cards(
   true,
   []
 );
-const c11 = new Cards(
+const c11 = new Card(
   "Spencer",
   "555-6544",
   "Reel Movies",
@@ -215,7 +215,7 @@ const c11 = new Cards(
   true,
   []
 );
-const c12 = new Cards(
+const c12 = new Card(
   "Mark",
   "555-8522",
   "Woodland Park",
@@ -226,7 +226,7 @@ const c12 = new Cards(
   true,
   []
 );
-const c13 = new Cards(
+const c13 = new Card(
   "Jason",
   "555-7411",
   "Woodland Park",
@@ -237,7 +237,7 @@ const c13 = new Cards(
   true,
   []
 );
-const c14 = new Cards(
+const c14 = new Card(
   "Steve",
   "555-9999",
   "Woodland Park",
@@ -248,7 +248,7 @@ const c14 = new Cards(
   true,
   []
 );
-const c15 = new Cards(
+const c15 = new Card(
   "John",
   "555-9633",
   "Woodland Park",
@@ -259,7 +259,7 @@ const c15 = new Cards(
   true,
   []
 );
-const c16 = new Cards(
+const c16 = new Card(
   "Paul",
   "555-5515",
   "High Tide Beach",
@@ -270,7 +270,7 @@ const c16 = new Cards(
   true,
   []
 );
-const c17 = new Cards(
+const c17 = new Card(
   "Tony",
   "555-2442",
   "High Tide Beach",
@@ -281,7 +281,7 @@ const c17 = new Cards(
   true,
   []
 );
-const c18 = new Cards(
+const c18 = new Card(
   "Wayne",
   "555-3535",
   "High Tide Beach",
@@ -292,7 +292,7 @@ const c18 = new Cards(
   true,
   []
 );
-const c19 = new Cards(
+const c19 = new Card(
   "Mike",
   "555-2226",
   "High Tide Beach",
@@ -303,7 +303,7 @@ const c19 = new Cards(
   true,
   []
 );
-const c20 = new Cards(
+const c20 = new Card(
   "Scott",
   "555-5599",
   "Jim's Gym",
@@ -314,7 +314,7 @@ const c20 = new Cards(
   true,
   []
 );
-const c21 = new Cards(
+const c21 = new Card(
   "Bob",
   "555-4884",
   "Jim's Gym",
@@ -325,7 +325,7 @@ const c21 = new Cards(
   true,
   []
 );
-const c22 = new Cards(
+const c22 = new Card(
   "Carlos",
   "555-6668",
   "Jim's Gym",
@@ -336,7 +336,7 @@ const c22 = new Cards(
   true,
   []
 );
-const c23 = new Cards(
+const c23 = new Card(
   "Matt",
   "555-7557",
   "Jim's Gym",
@@ -349,7 +349,7 @@ const c23 = new Cards(
 );
 
 // ##global stuff##
-const card_list = [
+export const card_list = [
   c0,
   c1,
   c2,
@@ -425,46 +425,11 @@ let pvp_list = [
   pvp11,
 ];
 
+// Game State
 let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
-let in_hand: Array<Cards> = []; // # initializes player hand as empty
-let discard_pile: Array<Cards> = []; // # initializes discard pile as empty
+let in_hand: Array<Card> = []; // # initializes player hand as empty
+let discard_pile: Array<Card> = []; // # initializes discard pile as empty
 let number_of_players = 0;
-
-// MAX: Required for stats only
-function boy_attribute_table(): void {
-  const notepad = new PrettyTable([
-    "Called?",
-    "Hangout",
-    "Sport / Food",
-    "Clothing",
-    "Secret Admirer?",
-  ]); // Specify the Column Names while initializing the Table
-  for (const card of card_list) {
-    // Iterates over all cards
-    let hangout = card.hangout;
-    let sport = card.sport;
-    let food = card.food;
-    let clothing = card.clothing;
-    let name = card.name;
-    let listname = card.name;
-    if (whos_turn().collected_clues.includes(card)) name = red_out(card.name); // Reds out a name you have dialed already in the "dialed" list
-    for (const clue of whos_turn().collected_clues) {
-      // Iterates over all the clues the player has heard so far
-      if (clue.clue_to_reveal === card.sport) sport = red_out(card.sport);
-      if (clue.clue_to_reveal === card.hangout) hangout = red_out(card.hangout);
-      if (clue.clue_to_reveal === card.food) food = red_out(card.food);
-      if (clue.clue_to_reveal === card.clothing)
-        clothing = red_out(card.clothing); // If any of the clues collected fit in the category, it gets redded out
-    }
-    if (card.sport === "null") sport = "";
-    if (card.food === "null") food = ""; // Removing null entries for food sport weirdness
-    notepad.add_row([name, hangout, sport + food, clothing, listname]); // Adds rows queued up for printing
-  }
-  clear_screen();
-  console.log(notepad.toString()); // Prints notepad
-  prompt("Press Enter to continue...");
-  clear_screen();
-}
 
 function new_game_crush(): number {
   const clue_list: string[] = []; // makes bucket to hold all valid clues in
@@ -527,11 +492,11 @@ function starting_deal(): void {
   }
 }
 
-function check_decks(): void {
+function consolidateDiscardPileIfNeedBe(): void {
   if (game_deck.length === 0) reshuffle();
 }
 
-function whos_turn(): Player {
+export function whos_turn(): Player {
   for (const player of player_list) {
     if (player.current_turn === true) {
       return player;
@@ -647,18 +612,6 @@ function print_current_player_hand(): void {
     console.log(`|${card.long_name}| `);
   }
   console.log();
-}
-
-function print_current_curses(): void {
-  for (const card of whos_turn().cardsinhand) {
-    if (card.curse_bucket.length > 0) {
-      for (const curse of card.curse_bucket) {
-        console.log(
-          `Your ${card.name} card is cursed, curse applied by ${curse.player_owner.playername} with '${curse.long_name}'`
-        );
-      }
-    }
-  }
 }
 
 function check_for_curse(last_dialed_boy: any): string {
@@ -848,7 +801,7 @@ function use_pvp(): void {
     );
   }
 
-  let selected_card: Cards;
+  let selected_card: Card;
   valid_choice = false;
   while (!valid_choice) {
     const choice: string = prompt("");
@@ -901,9 +854,17 @@ function use_pvp(): void {
   console.log("The spent PvP card has been removed from your hand.");
 }
 
-function call_number(choice: string): Cards | undefined {
+function call_number(
+  choice: string,
+  isPlayerGame: boolean = true
+): Card | undefined {
   if (whos_turn().dialed_this_turn === false) {
     let valid_call: boolean = false;
+
+    if (!isPlayerGame) {
+      if 
+    }
+
 
     for (const card of whos_turn().cardsinhand) {
       if (
@@ -960,7 +921,7 @@ function call_number(choice: string): Cards | undefined {
   return undefined;
 }
 
-function clue_reveal(last_dialed_boy: Cards | undefined): string | undefined {
+function clue_reveal(last_dialed_boy: Card | undefined): string | undefined {
   try {
     last_dialed_boy;
   } catch (error) {
@@ -970,7 +931,7 @@ function clue_reveal(last_dialed_boy: Cards | undefined): string | undefined {
   if (!last_dialed_boy) return;
 
   let response: string | undefined;
-  const crushCard = card_list[crush];
+  const crushCard = card_list[crushIndex];
 
   // Rejection check:
   if (
@@ -1076,7 +1037,7 @@ function clue_reveal(last_dialed_boy: Cards | undefined): string | undefined {
   return choice;
 }
 
-function dialed_discard(last_dialed_boy: Cards): void {
+function dialed_discard(last_dialed_boy: Card): void {
   if (!whos_turn().dialed_this_turn) {
     const i = whos_turn().cardsinhand.indexOf(last_dialed_boy);
     console.log(`${last_dialed_boy.name} from your hand has been discarded.`);
@@ -1132,7 +1093,7 @@ function count(): void {
   console.log(`Discard Pile: ${discard_pile.length}`);
 }
 
-function solve(crush: number, number_of_players: number): void {
+function solve(crushIndex: number, number_of_players: number): void {
   if (whos_turn().guessed_this_turn) {
     console.log("You cannot guess more than once per turn.");
     return;
@@ -1141,17 +1102,17 @@ function solve(crush: number, number_of_players: number): void {
   console.log(
     "You think you know who your crush is, huh?\nType your guess to check (name or phone#).\nYou can also look at your notebook by entering ('notebook')."
   );
-  const crush_object = card_list[crush];
+  const crushCard = card_list[crushIndex];
 
   while (true) {
     const solve_choice = prompt("").toLowerCase();
 
     for (const card of card_list) {
       if (
-        solve_choice === crush_object.phonenum ||
-        solve_choice === crush_object.name.toLowerCase()
+        solve_choice === crushCard.phonenum ||
+        solve_choice === crushCard.name.toLowerCase()
       ) {
-        console.log(`${crush_object.name} is your crush!\n`);
+        console.log(`${crushCard.name} is your crush!\n`);
         console.log(
           `Congratulations! ${whos_turn().playername} (Player ${
             whos_turn().playernumber
@@ -1226,14 +1187,14 @@ function game_loop(): void {
   while (true) {
     print_whos_turn();
     print_current_player_hand();
-    check_decks();
+    consolidateDiscardPileIfNeedBe();
     console.log(
       "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')",
 
       "\n"
     );
     let choice: string = prompt("").toLowerCase();
-    let last_dialed_boy: Cards | undefined;
+    let last_dialed_boy: Card | undefined;
 
     if (choice.includes("dial") && choice !== "redial") {
       const last_dialed_boy = call_number(choice);
@@ -1278,4 +1239,85 @@ function game_loop(): void {
   }
 }
 
-game_loop();
+function playerless_game_loop(): void {
+  const crush = new_game_crush();
+  const valid_choices: string[] = [
+    "null",
+    "notepad",
+    "dial",
+    "end",
+    "count",
+    "redial",
+    "solve",
+    "pvp",
+  ];
+  console.log(
+    "\nWelcome to Dream Phone Simulator Version 0.1, a computer simulation of the 1991 board game 'Dreamphone'.\nPlease see included dp_instructions.txt for more information.\n"
+  );
+
+  // number_of_players = set_number_of_players();
+  // name_players();
+
+  // starting_player();
+  // shuffleDeck();
+  // starting_deal();
+
+  while (true) {
+    // print_whos_turn();
+    // print_current_player_hand();
+    consolidateDiscardPileIfNeedBe();
+    console.log(
+      "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')",
+
+      "\n"
+    );
+    let choice: string = prompt("").toLowerCase();
+    let last_dialed_boy: Card | undefined;
+
+    if (choice.includes("dial") && choice !== "redial") {
+      // because it may also include the number - thats why its not in the switch block
+      const last_dialed_boy = call_number(choice, false);
+      clue_reveal(last_dialed_boy);
+      dialed_discard(last_dialed_boy!);
+      dialed_draw();
+      choice = "null";
+    }
+
+    if (!valid_choices.includes(choice)) {
+      console.log("Not a valid choice.");
+    } else {
+      switch (choice) {
+        case "solve":
+          solve(crush, number_of_players);
+          break;
+        case "count":
+          count();
+          break;
+        case "pvp": // Player vs player card
+          use_pvp();
+          break;
+
+        case "redial":
+          if (!last_dialed_boy) {
+            console.log("no call made yet");
+          } else {
+            console.log(
+              `The last boy you called was ${last_dialed_boy.name}. His number was ${last_dialed_boy.phonenum}.`
+            );
+            clue_reveal(last_dialed_boy);
+          }
+          break;
+        case "notepad":
+          boy_attribute_table(); // MAX: Required for stats only
+          break;
+        case "end":
+          end_turn(number_of_players);
+          break;
+      }
+    }
+  }
+}
+
+playerless_game_loop();
+
+// game_loop();
