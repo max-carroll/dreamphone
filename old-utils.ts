@@ -1,4 +1,26 @@
+import {
+  new_game_crush,
+  number_of_players,
+  set_number_of_players,
+  name_players,
+  starting_player,
+  shuffleDeck,
+  starting_deal,
+  print_whos_turn,
+  print_current_player_hand,
+  consolidateDiscardPileIfNeedBe,
+  Card,
+  call_number,
+  clue_reveal,
+  dialed_discard,
+  dialed_draw,
+  solve,
+  count,
+  use_pvp,
+  end_turn,
+} from "./new-main";
 import { card_list, whos_turn, prompt } from "./new-main";
+import { boy_attribute_table } from "./old-utils";
 
 // functions;
 export function clear_screen() {
@@ -62,4 +84,81 @@ export function boy_attribute_table(): void {
   console.log(notepad.toString()); // Prints notepad
   prompt("Press Enter to continue...");
   clear_screen();
+}
+function game_loop(): void {
+  const crush = new_game_crush();
+  const valid_choices: string[] = [
+    "null",
+    "notepad",
+    "dial",
+    "end",
+    "count",
+    "redial",
+    "solve",
+    "pvp",
+  ];
+  console.log(
+    "\nWelcome to Dream Phone Simulator Version 0.1, a computer simulation of the 1991 board game 'Dreamphone'.\nPlease see included dp_instructions.txt for more information.\n"
+  );
+
+  number_of_players = set_number_of_players();
+  name_players();
+
+  starting_player();
+  shuffleDeck();
+  starting_deal();
+
+  while (true) {
+    print_whos_turn();
+    print_current_player_hand();
+    consolidateDiscardPileIfNeedBe();
+    console.log(
+      "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')",
+
+      "\n"
+    );
+    let choice: string = prompt("").toLowerCase();
+    let last_dialed_boy: Card | undefined;
+
+    if (choice.includes("dial") && choice !== "redial") {
+      const last_dialed_boy = call_number(choice);
+      clue_reveal(last_dialed_boy);
+      dialed_discard(last_dialed_boy!);
+      dialed_draw();
+      choice = "null";
+    }
+
+    if (!valid_choices.includes(choice)) {
+      console.log("Not a valid choice.");
+    } else {
+      switch (choice) {
+        case "solve":
+          solve(crush, number_of_players);
+          break;
+        case "count":
+          count();
+          break;
+        case "pvp": // Player vs player card
+          use_pvp();
+          break;
+
+        case "redial":
+          if (!last_dialed_boy) {
+            console.log("no call made yet");
+          } else {
+            console.log(
+              `The last boy you called was ${last_dialed_boy.name}. His number was ${last_dialed_boy.phonenum}.`
+            );
+            clue_reveal(last_dialed_boy);
+          }
+          break;
+        case "notepad":
+          boy_attribute_table(); // MAX: Required for stats only
+          break;
+        case "end":
+          end_turn(number_of_players);
+          break;
+      }
+    }
+  }
 }

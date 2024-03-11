@@ -47,8 +47,10 @@ let player4 = new Player(4, [], false, "", [], false, false, [], false);
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num
 let crushIndex = 0; // initalizes game crush global var
+let crushCard : Card
 
-class Card {
+
+export class Card {
   name: string;
   phonenum: string;
   hangout: string;
@@ -425,15 +427,20 @@ let pvp_list = [
   pvp11,
 ];
 
+// MAX: there's another game state above, where should this go
+
 // Game State
 let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
 let in_hand: Array<Card> = []; // # initializes player hand as empty
 let discard_pile: Array<Card> = []; // # initializes discard pile as empty
-let number_of_players = 0;
+export let number_of_players = 0;
 
-function new_game_crush(): number {
+
+export function new_game_crush(): number {
   const clue_list: string[] = []; // makes bucket to hold all valid clues in
-  const crush: number = Math.floor(Math.random() * card_list.length); // rng a boy from the card list to be the crush, adjusting len from starting at 1 while list index starts at 0
+  crushIndex = Math.floor(Math.random() * card_list.length); // rng a boy from the card list to be the crush, adjusting len from starting at 1 while list index starts at 0
+  crushCard = card_list[crushIndex]
+
   for (const card of card_list) {
     // creates a list of all possible clues in clue_list, removing "null" entries for food sport weirdness
     if (card.hangout !== "null") clue_list.push(card.hangout);
@@ -452,7 +459,7 @@ function new_game_crush(): number {
   return crush;
 }
 
-function starting_deal(): void {
+export function starting_deal(): void {
   for (let i = 0; i < 3; i++) {
     // gives players 3 deck cards
     for (const player of player_list) {
@@ -492,7 +499,7 @@ function starting_deal(): void {
   }
 }
 
-function consolidateDiscardPileIfNeedBe(): void {
+export function consolidateDiscardPileIfNeedBe(): void {
   if (game_deck.length === 0) reshuffle();
 }
 
@@ -505,7 +512,7 @@ export function whos_turn(): Player {
   throw new Error("No player's turn found.");
 }
 
-function print_whos_turn(): Player {
+export function print_whos_turn(): Player {
   for (const player of player_list) {
     if (player.current_turn === true) {
       console.log(
@@ -517,7 +524,7 @@ function print_whos_turn(): Player {
   throw new Error("No player's turn found.");
 }
 
-function set_number_of_players(): number {
+export function set_number_of_players(): number {
   console.log("How many players would like to play (1 - 4)?");
   while (true) {
     try {
@@ -541,7 +548,7 @@ function set_number_of_players(): number {
   }
 }
 
-function name_players(): void {
+export function name_players(): void {
   for (const player of player_list) {
     console.log(`\nPlease give Player ${player.playernumber} a name.`);
     const name: string = prompt("");
@@ -555,7 +562,7 @@ function name_players(): void {
   }
 }
 
-function starting_player(): void {
+export function starting_player(): void {
   if (player_list.length === 1) {
     for (const player of player_list) {
       player.current_turn = true;
@@ -602,7 +609,7 @@ function starting_player(): void {
   }
 }
 
-function print_current_player_hand(): void {
+export function print_current_player_hand(): void {
   console.log(`${whos_turn().playername}'s current hand is:`);
   for (const card of whos_turn().cardsinhand) {
     console.log(`${card.name} - Phone#: ${card.phonenum}`);
@@ -675,7 +682,7 @@ function speakerphone(last_dialed_boy: any): string {
   return "speaker";
 }
 
-function use_pvp(): void {
+export function use_pvp(): void {
   const opponent_list: Player[] = [...player_list];
   opponent_list.splice(opponent_list.indexOf(whos_turn()), 1); // Remove current player from the opponent list
 
@@ -854,7 +861,7 @@ function use_pvp(): void {
   console.log("The spent PvP card has been removed from your hand.");
 }
 
-function call_number(
+export function call_number(
   choice: string,
   isPlayerGame: boolean = true
 ): Card | undefined {
@@ -921,7 +928,7 @@ function call_number(
   return undefined;
 }
 
-function clue_reveal(last_dialed_boy: Card | undefined): string | undefined {
+export function clue_reveal(last_dialed_boy: Card | undefined): string | undefined {
   try {
     last_dialed_boy;
   } catch (error) {
@@ -931,7 +938,7 @@ function clue_reveal(last_dialed_boy: Card | undefined): string | undefined {
   if (!last_dialed_boy) return;
 
   let response: string | undefined;
-  const crushCard = card_list[crushIndex];
+
 
   // Rejection check:
   if (
@@ -1037,7 +1044,7 @@ function clue_reveal(last_dialed_boy: Card | undefined): string | undefined {
   return choice;
 }
 
-function dialed_discard(last_dialed_boy: Card): void {
+export function dialed_discard(last_dialed_boy: Card): void {
   if (!whos_turn().dialed_this_turn) {
     const i = whos_turn().cardsinhand.indexOf(last_dialed_boy);
     console.log(`${last_dialed_boy.name} from your hand has been discarded.`);
@@ -1046,7 +1053,7 @@ function dialed_discard(last_dialed_boy: Card): void {
   }
 }
 
-function dialed_draw(): string {
+export function dialed_draw(): string {
   if (whos_turn().cardsinhand.length < 3) {
     whos_turn().cardsinhand.push(game_deck.shift()!);
     console.log(`${whos_turn().playername} drew a card.`);
@@ -1055,7 +1062,7 @@ function dialed_draw(): string {
   return choice;
 }
 
-function end_turn(number_of_players: number): void {
+export function end_turn(number_of_players: number): void {
   const former_player = whos_turn();
   if (number_of_players > 1) {
     const current_player_num = player_list.indexOf(whos_turn());
@@ -1081,7 +1088,7 @@ function end_turn(number_of_players: number): void {
   }
 }
 
-function count(): void {
+export function count(): void {
   console.log(`\n====Status====`);
 
   console.log(`Draw Pile: ${game_deck.length}`);
@@ -1093,7 +1100,7 @@ function count(): void {
   console.log(`Discard Pile: ${discard_pile.length}`);
 }
 
-function solve(crushIndex: number, number_of_players: number): void {
+export function solve(guessedCrushIndex: number, number_of_players: number): void {
   if (whos_turn().guessed_this_turn) {
     console.log("You cannot guess more than once per turn.");
     return;
@@ -1102,7 +1109,7 @@ function solve(crushIndex: number, number_of_players: number): void {
   console.log(
     "You think you know who your crush is, huh?\nType your guess to check (name or phone#).\nYou can also look at your notebook by entering ('notebook')."
   );
-  const crushCard = card_list[crushIndex];
+  const crushCard = card_list[guessedCrushIndex];
 
   while (true) {
     const solve_choice = prompt("").toLowerCase();
@@ -1139,7 +1146,7 @@ function solve(crushIndex: number, number_of_players: number): void {
   }
 }
 
-function shuffleDeck() {
+export function shuffleDeck() {
   game_deck = shuffle([...game_deck]);
 }
 
@@ -1158,84 +1165,6 @@ function reshuffle(): void {
         blue_out("The discard pile has been shuffled back to the draw pile.") +
         "\n"
     );
-  }
-}
-
-function game_loop(): void {
-  const crush = new_game_crush();
-  const valid_choices: string[] = [
-    "null",
-    "notepad",
-    "dial",
-    "end",
-    "count",
-    "redial",
-    "solve",
-    "pvp",
-  ];
-  console.log(
-    "\nWelcome to Dream Phone Simulator Version 0.1, a computer simulation of the 1991 board game 'Dreamphone'.\nPlease see included dp_instructions.txt for more information.\n"
-  );
-
-  number_of_players = set_number_of_players();
-  name_players();
-
-  starting_player();
-  shuffleDeck();
-  starting_deal();
-
-  while (true) {
-    print_whos_turn();
-    print_current_player_hand();
-    consolidateDiscardPileIfNeedBe();
-    console.log(
-      "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')",
-
-      "\n"
-    );
-    let choice: string = prompt("").toLowerCase();
-    let last_dialed_boy: Card | undefined;
-
-    if (choice.includes("dial") && choice !== "redial") {
-      const last_dialed_boy = call_number(choice);
-      clue_reveal(last_dialed_boy);
-      dialed_discard(last_dialed_boy!);
-      dialed_draw();
-      choice = "null";
-    }
-
-    if (!valid_choices.includes(choice)) {
-      console.log("Not a valid choice.");
-    } else {
-      switch (choice) {
-        case "solve":
-          solve(crush, number_of_players);
-          break;
-        case "count":
-          count();
-          break;
-        case "pvp": // Player vs player card
-          use_pvp();
-          break;
-
-        case "redial":
-          if (!last_dialed_boy) {
-            console.log("no call made yet");
-          } else {
-            console.log(
-              `The last boy you called was ${last_dialed_boy.name}. His number was ${last_dialed_boy.phonenum}.`
-            );
-            clue_reveal(last_dialed_boy);
-          }
-          break;
-        case "notepad":
-          boy_attribute_table(); // MAX: Required for stats only
-          break;
-        case "end":
-          end_turn(number_of_players);
-          break;
-      }
-    }
   }
 }
 
