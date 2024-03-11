@@ -1,4 +1,5 @@
 import promptSync from "prompt-sync";
+import { shuffle } from "./utils";
 
 const prompt = promptSync();
 
@@ -434,10 +435,6 @@ function clear_screen() {
  */
 }
 
-function delay() {}
-
-function short_delay() {}
-
 function long_delay() {}
 
 // Some TEXT STYLE stuff
@@ -561,8 +558,7 @@ function starting_deal(): void {
       "All Players have drawn 3 boy cards from the deck,\nand have 3 PvP cards in hand."
     );
     console.log("Starting Game...");
-    delay();
-    delay();
+
     clear_screen();
   }
 }
@@ -600,10 +596,8 @@ function set_number_of_players(): number {
       const num: number = parseInt(userINput, 10);
       if (num === 1) {
         console.log("\nYou have selected 1 player.");
-        delay();
       } else if (num >= 2 && num <= 4) {
         console.log(`\nYou have selected ${num} players.`); // grammar!
-        delay();
       }
       const number_of_players: number = num;
       for (let i = 0; i < number_of_players; i++) {
@@ -626,10 +620,9 @@ function name_players(): void {
   }
 
   console.log("\nThe names you have chosen are:");
-  short_delay();
+
   for (const player of player_list) {
     console.log(`Player ${player.playernumber}, ${player.playername}`);
-    short_delay();
   }
 }
 
@@ -670,7 +663,6 @@ function starting_player(): void {
           if (selectedPlayer === player.playernumber) {
             player.current_turn = true;
             console.log(`Player ${player.playernumber} will go first.`);
-            short_delay();
           }
         }
         break;
@@ -685,7 +677,6 @@ function print_current_player_hand(): void {
   console.log(`${whos_turn().playername}'s current hand is:`);
   for (const card of whos_turn().cardsinhand) {
     console.log(`${card.name} - Phone#: ${card.phonenum}`);
-    short_delay();
   }
   console.log("PvP: ");
   for (const card of whos_turn().pvp_in_hand) {
@@ -729,14 +720,13 @@ function share_a_secret(last_dialed_boy: any): string {
     `\nOh no! ${last_dialed_boy.curse_bucket[0].player_owner.playername} ` +
       `(Player ${last_dialed_boy.curse_bucket[0].player_owner.playernumber}) has cursed your ${last_dialed_boy.name} card with |Share a Secret|!\n`
   );
-  long_delay();
+
   console.log(
     `Your revealed clue from ${last_dialed_boy.name} ` +
       `will also be added to their notepad. However, you will gain possession of their expended |Share a Secret| PvP card.`,
     "\n"
   );
-  long_delay();
-  long_delay();
+
   return "secret";
 }
 
@@ -745,13 +735,12 @@ function mom_says_hang_up(last_dialed_boy: any): string {
     `\nOh no! ${last_dialed_boy.curse_bucket[0].player_owner.playername} ` +
       `(Player ${last_dialed_boy.curse_bucket[0].player_owner.playernumber}) has cursed your ${last_dialed_boy.name} card with |Mom Says Hang Up|!\n`
   );
-  long_delay();
+
   console.log(
     `You must discard your ${last_dialed_boy.name} and lose a turn.`,
     "\n"
   );
-  long_delay();
-  long_delay();
+
   return "hangup";
 }
 
@@ -765,8 +754,7 @@ function speakerphone(last_dialed_boy: any): string {
       `will also be added to every player's notepad.`,
     "\n"
   );
-  long_delay();
-  long_delay();
+
   return "speaker";
 }
 
@@ -962,7 +950,6 @@ function call_number(choice: string): Cards | undefined {
       ) {
         for (let x = 0; x < 3; x++) {
           console.log("*ring*");
-          short_delay();
         }
         return card;
       }
@@ -986,9 +973,8 @@ function call_number(choice: string): Cards | undefined {
         ) {
           for (let x = 0; x < 3; x++) {
             console.log("*ring*");
-            short_delay();
           }
-          delay();
+
           valid_call = true;
           return card;
         }
@@ -1059,10 +1045,8 @@ function clue_reveal(last_dialed_boy: Cards | undefined): string | undefined {
         `Hello? This is ${last_dialed_boy.name}. You want to know about your crush?`
       )
     );
-    long_delay();
   } else {
     console.log(blue_out("You again? I already told you..."));
-    long_delay();
   }
 
   if (response === "hangout_reveal")
@@ -1073,8 +1057,6 @@ function clue_reveal(last_dialed_boy: Cards | undefined): string | undefined {
     console.log(blue_out("He eats a lot of food,"));
   if (response === "clothing_reveal")
     console.log(blue_out("He looks good in whatever he wears,"));
-
-  long_delay();
 
   let grammar: string = "";
   if (["Hat", "Jacket", "Tie"].includes(last_dialed_boy.clue_to_reveal)) {
@@ -1126,7 +1108,7 @@ function clue_reveal(last_dialed_boy: Cards | undefined): string | undefined {
 
   last_dialed_boy.first_call = false;
   let choice: string = "null";
-  long_delay();
+
   return choice;
 }
 
@@ -1158,13 +1140,13 @@ function end_turn(number_of_players: number): void {
         : current_player_num + 1;
 
     console.log(`Ending ${whos_turn().playername}'s turn.`);
-    delay();
+
     whos_turn().current_turn = false;
     former_player.dialed_this_turn = false;
     former_player.guessed_this_turn = false;
     former_player.pvp_this_turn = false;
     console.log("next player up:", player_list[next_player_num].playername);
-    delay();
+
     player_list[next_player_num].current_turn = true;
 
     for (const card of card_list) {
@@ -1176,15 +1158,14 @@ function end_turn(number_of_players: number): void {
 
 function count(): void {
   console.log(`\n====Status====`);
-  short_delay();
+
   console.log(`Draw Pile: ${game_deck.length}`);
-  short_delay();
+
   console.log(
     `${whos_turn().playername}'s Hand: ${whos_turn().cardsinhand.length}`
   );
-  short_delay();
+
   console.log(`Discard Pile: ${discard_pile.length}`);
-  short_delay();
 }
 
 function solve(crush: number, number_of_players: number): void {
@@ -1271,10 +1252,10 @@ function game_loop(): void {
   console.log(
     "\nWelcome to Dream Phone Simulator Version 0.1, a computer simulation of the 1991 board game 'Dreamphone'.\nPlease see included dp_instructions.txt for more information.\n"
   );
-  delay();
+
   const number_of_players = set_number_of_players();
   name_players();
-  delay();
+
   starting_player();
   shuffleDeck();
   starting_deal();
@@ -1335,23 +1316,3 @@ function game_loop(): void {
 }
 
 game_loop();
-
-export function shuffle<T>(array: T[]): T[] {
-  let currentIndex = array.length,
-    randomIndex;
-
-  // While there remain elements to shuffle.
-  while (currentIndex != 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-}
