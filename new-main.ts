@@ -1159,6 +1159,7 @@ export function solve(
   }
 }
 
+// MAX: todo - could simulate phone ringing at anyt moment in time
 export function shuffleDeck() {
   game_deck = shuffle([...game_deck]);
 }
@@ -1190,21 +1191,13 @@ function playerless_game_loop(): void {
     "redial",
     "solve",
     "pvp",
+    "cheat",
   ];
   console.log(
     "\nWelcome to Dream Phone Simulator Version 0.1, a computer simulation of the 1991 board game 'Dreamphone'.\nPlease see included dp_instructions.txt for more information.\n"
   );
 
-  // number_of_players = set_number_of_players();
-  // name_players();
-
-  // starting_player();
-  // shuffleDeck();
-  // starting_deal();
-
   while (true) {
-    // print_whos_turn();
-    // print_current_player_hand();
     consolidateDiscardPileIfNeedBe();
     console.log(
       "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')",
@@ -1233,7 +1226,7 @@ function playerless_game_loop(): void {
         case "count":
           count();
           break;
-        case "pvp": // Player vs player card
+        case "pvp": // Player vs player card - this is something that could be simulated
           use_pvp();
           break;
 
@@ -1247,8 +1240,12 @@ function playerless_game_loop(): void {
             clue_reveal(last_dialed_boy);
           }
           break;
-        case "notepad":
-          // boy_attribute_table(); // MAX: Required for stats only
+        case "cheat":
+          console.log(
+            crushCard.name,
+            " is your crush, their number is :",
+            crushCard.phonenum
+          );
           break;
         case "end":
           end_turn(number_of_players);
