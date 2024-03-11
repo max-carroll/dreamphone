@@ -1,5 +1,7 @@
 import promptSync from "prompt-sync";
 import { shuffle } from "./utils";
+import { red_out, clear_screen, blue_out } from "./old-utils";
+import { PrettyTable } from "./old-utils";
 
 const prompt = promptSync();
 
@@ -426,45 +428,7 @@ let pvp_list = [
 let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
 let in_hand: Array<Cards> = []; // # initializes player hand as empty
 let discard_pile: Array<Cards> = []; // # initializes discard pile as empty
-
-// functions;
-function clear_screen() {
-  /**
- * # Clear screen using click.clear() function
-    click.clear()
- */
-}
-
-function long_delay() {}
-
-// Some TEXT STYLE stuff
-function blue_out(text: string) {
-  // red_out is how i am crossing out entries in the notepad
-
-  return text;
-}
-function red_out(text: string) {
-  // red_out is how i am crossing out entries in the notepad
-
-  return text;
-}
-function white_out(text: string) {
-  // red_out is how i am crossing out entries in the notepad
-
-  return text;
-}
-
-class PrettyTable {
-  constructor(private arry: Array<string>) {}
-
-  public add_row(arry: Array<string>) {
-    // todo
-  }
-
-  public toString() {
-    // TODO
-  }
-}
+let number_of_players = 0;
 
 // MAX: Required for stats only
 function boy_attribute_table(): void {
@@ -1237,7 +1201,6 @@ function reshuffle(): void {
 }
 
 function game_loop(): void {
-  clear_screen();
   const crush = new_game_crush();
   const valid_choices: string[] = [
     "null",
@@ -1253,7 +1216,7 @@ function game_loop(): void {
     "\nWelcome to Dream Phone Simulator Version 0.1, a computer simulation of the 1991 board game 'Dreamphone'.\nPlease see included dp_instructions.txt for more information.\n"
   );
 
-  const number_of_players = set_number_of_players();
+  number_of_players = set_number_of_players();
   name_players();
 
   starting_player();
