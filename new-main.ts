@@ -47,6 +47,8 @@ let all_player_list = [player1, player2, player3, player4]; // all possible play
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num
 let crushIndex = 0; // initalizes game crush global var
 let crushCard: Card;
+let allClues: Array<Card> = [];
+let playerWhosTurnItIs: Player | undefined;
 
 export class Card {
   name: string;
@@ -498,15 +500,6 @@ export function consolidateDiscardPileIfNeedBe(): void {
   if (game_deck.length === 0) reshuffle();
 }
 
-export function whos_turn(): Player {
-  for (const player of player_list) {
-    if (player.current_turn === true) {
-      return player;
-    }
-  }
-  throw new Error("No player's turn found.");
-}
-
 export function print_whos_turn(): Player {
   for (const player of player_list) {
     if (player.current_turn === true) {
@@ -561,6 +554,7 @@ export function starting_player(): void {
   if (player_list.length === 1) {
     for (const player of player_list) {
       player.current_turn = true;
+      playerWhosTurnItIs = player;
       break;
     }
     return;
@@ -593,6 +587,7 @@ export function starting_player(): void {
         for (const player of player_list) {
           if (selectedPlayer === player.playernumber) {
             player.current_turn = true;
+            playerWhosTurnItIs = player;
             console.log(`Player ${player.playernumber} will go first.`);
           }
         }
@@ -605,12 +600,14 @@ export function starting_player(): void {
 }
 
 export function print_current_player_hand(): void {
-  console.log(`${whos_turn().playername}'s current hand is:`);
-  for (const card of whos_turn().cardsinhand) {
+  if (!playerWhosTurnItIs) return;
+
+  console.log(`${playerWhosTurnItIs.playername}'s current hand is:`);
+  for (const card of playerWhosTurnItIs.cardsinhand) {
     console.log(`${card.name} - Phone#: ${card.phonenum}`);
   }
   console.log("PvP: ");
-  for (const card of whos_turn().pvp_in_hand) {
+  for (const card of playerWhosTurnItIs.pvp_in_hand) {
     console.log(`|${card.long_name}| `);
   }
   console.log();
@@ -678,8 +675,9 @@ function speakerphone(last_dialed_boy: any): string {
 }
 
 export function use_pvp(): void {
+  if (!playerWhosTurnItIs) return; // MAX: todo - is this right
   const opponent_list: Player[] = [...player_list];
-  opponent_list.splice(opponent_list.indexOf(whos_turn()), 1); // Remove current player from the opponent list
+  opponent_list.splice(opponent_list.indexOf(playerWhosTurnItIs), 1); // Remove current player from the opponent list
 
   const op_player_nums: number[] = opponent_list.map(
     (opponent) => opponent.playernumber
@@ -693,13 +691,13 @@ export function use_pvp(): void {
     return;
   }
 
-  if (whos_turn().pvp_this_turn === true) {
+  if (playerWhosTurnItIs.pvp_this_turn === true) {
     console.log("Cannot use more than one PvP card per turn.");
     return;
   }
 
-  if (whos_turn().pvp_this_turn === false) {
-    if (whos_turn().pvp_in_hand.length !== 0) {
+  if (playerWhosTurnItIs.pvp_this_turn === false) {
+    if (playerWhosTurnItIs.pvp_in_hand.length !== 0) {
       console.log(
         "Please select a PvP card to use (number input), or ('exit') to leave."
       );
@@ -709,9 +707,11 @@ export function use_pvp(): void {
     }
   }
 
-  for (const pvp_card of whos_turn().pvp_in_hand) {
+  for (const pvp_card of playerWhosTurnItIs.pvp_in_hand) {
     console.log(
-      `${whos_turn().pvp_in_hand.indexOf(pvp_card)} - |${pvp_card.long_name}|`
+      `${playerWhosTurnItIs.pvp_in_hand.indexOf(pvp_card)} - |${
+        pvp_card.long_name
+      }|`
     );
   }
 
@@ -727,8 +727,10 @@ export function use_pvp(): void {
       if (!op_player_nums.includes(parseInt(choice))) {
         console.log("Entered number not in range of valid choices, try again.");
       }
-      for (const pvp_card of whos_turn().pvp_in_hand) {
-        if (parseInt(choice) === whos_turn().pvp_in_hand.indexOf(pvp_card)) {
+      for (const pvp_card of playerWhosTurnItIs.pvp_in_hand) {
+        if (
+          parseInt(choice) === playerWhosTurnItIs.pvp_in_hand.indexOf(pvp_card)
+        ) {
           const selected_pvp: Pvp_Cards = pvp_card;
           console.log(`\nYou chose |${selected_pvp.long_name}|\n`);
           valid_choice = true;
@@ -841,7 +843,7 @@ export function use_pvp(): void {
     }
   }
 
-  whos_turn().pvp_this_turn = true;
+  playerWhosTurnItIs.pvp_this_turn = true;
   console.log(
     `\nYou have cursed ${opponent_player!.playername}'s '${
       selected_card!.name
@@ -849,25 +851,36 @@ export function use_pvp(): void {
   );
   selected_pvp!.used_on.push(opponent_player!);
   selected_card!.curse_bucket.push(selected_pvp!);
-  whos_turn().pvp_in_hand.splice(
-    whos_turn().pvp_in_hand.indexOf(selected_pvp!),
+  playerWhosTurnItIs.pvp_in_hand.splice(
+    playerWhosTurnItIs.pvp_in_hand.indexOf(selected_pvp!),
     1
   );
   console.log("The spent PvP card has been removed from your hand.");
 }
 
-export function call_number(
-  choice: string,
-  isPlayerGame: boolean = true
-): Card | undefined {
-  if (whos_turn().dialed_this_turn === false) {
+export function call_number(choice: string): Card | undefined {
+  if (!playerWhosTurnItIs) {
+    const [action, selector] = choice.split(" ");
+
+    const boyToCall = card_list.find(
+      (b) =>
+        b.phonenum === selector ||
+        b.name.toLowerCase() === selector.toLowerCase()
+    );
+
+    if (boyToCall) {
+      return boyToCall;
+    } else {
+      return undefined;
+    }
+  }
+
+  // MAX: decouple journey logic for game mechanics, extract to other library
+
+  if (playerWhosTurnItIs.dialed_this_turn === false) {
     let valid_call: boolean = false;
 
-    // if (!isPlayerGame) {
-    //   if
-    // }
-
-    for (const card of whos_turn().cardsinhand) {
+    for (const card of playerWhosTurnItIs.cardsinhand) {
       if (
         (choice.includes("dial") &&
           choice.includes(card.phonenum.toString())) ||
@@ -892,7 +905,7 @@ export function call_number(
         break;
       }
 
-      for (const card of whos_turn().cardsinhand) {
+      for (const card of playerWhosTurnItIs.cardsinhand) {
         if (
           dialed_number === card.phonenum.toString() ||
           dialed_number.toLowerCase() === card.name.toLowerCase()
@@ -923,7 +936,8 @@ export function call_number(
 }
 
 export function clue_reveal(
-  last_dialed_boy: Card | undefined
+  last_dialed_boy: Card | undefined,
+  isPlayerGame = true
 ): string | undefined {
   try {
     last_dialed_boy;
@@ -1006,12 +1020,19 @@ export function clue_reveal(
       "\n"
     );
 
-  whos_turn().collected_clues.push(last_dialed_boy);
+  if (isPlayerGame) {
+    playerWhosTurnItIs?.collected_clues.push(last_dialed_boy);
+  }
+
+  allClues.push(last_dialed_boy);
 
   if (curse_mod === "secret") {
     const also_give_clue = last_dialed_boy.curse_bucket[0].player_owner;
     also_give_clue.collected_clues.push(last_dialed_boy);
-    whos_turn().pvp_in_hand.push(last_dialed_boy.curse_bucket[0]);
+
+    if (isPlayerGame) {
+      playerWhosTurnItIs?.pvp_in_hand.push(last_dialed_boy.curse_bucket[0]);
+    }
     last_dialed_boy.curse_bucket.shift();
   }
 
@@ -1029,35 +1050,43 @@ export function clue_reveal(
 }
 
 export function dialed_discard(last_dialed_boy: Card): void {
-  if (!whos_turn().dialed_this_turn) {
-    const i = whos_turn().cardsinhand.indexOf(last_dialed_boy);
+  if (!playerWhosTurnItIs) return;
+
+  if (!playerWhosTurnItIs.dialed_this_turn) {
+    const i = playerWhosTurnItIs.cardsinhand.indexOf(last_dialed_boy);
     console.log(`${last_dialed_boy.name} from your hand has been discarded.`);
-    discard_pile.push(whos_turn().cardsinhand.splice(i, 1)[0]);
-    if (player_list.length > 1) whos_turn().dialed_this_turn = true;
+    discard_pile.push(playerWhosTurnItIs.cardsinhand.splice(i, 1)[0]);
+    if (player_list.length > 1) playerWhosTurnItIs.dialed_this_turn = true;
   }
 }
 
 export function dialed_draw(): string {
-  if (whos_turn().cardsinhand.length < 3) {
-    whos_turn().cardsinhand.push(game_deck.shift()!);
-    console.log(`${whos_turn().playername} drew a card.`);
+  if (!playerWhosTurnItIs) {
+    return "null";
   }
-  let choice: string = "null";
-  return choice;
+
+  if (playerWhosTurnItIs.cardsinhand.length < 3) {
+    playerWhosTurnItIs.cardsinhand.push(game_deck.shift()!);
+    console.log(`${playerWhosTurnItIs.playername} drew a card.`);
+  }
+
+  return "null";
 }
 
 export function end_turn(number_of_players: number): void {
-  const former_player = whos_turn();
+  if (!playerWhosTurnItIs) return;
+
+  const former_player = playerWhosTurnItIs;
   if (number_of_players > 1) {
-    const current_player_num = player_list.indexOf(whos_turn());
+    const current_player_num = player_list.indexOf(playerWhosTurnItIs!);
     const next_player_num =
       current_player_num === player_list.length - 1
         ? 0
         : current_player_num + 1;
 
-    console.log(`Ending ${whos_turn().playername}'s turn.`);
+    console.log(`Ending ${former_player.playername}'s turn.`);
 
-    whos_turn().current_turn = false;
+    playerWhosTurnItIs.current_turn = false;
     former_player.dialed_this_turn = false;
     former_player.guessed_this_turn = false;
     former_player.pvp_this_turn = false;
@@ -1077,7 +1106,7 @@ export function count(): void {
   console.log(`Draw Pile: ${game_deck.length}`);
 
   console.log(
-    `${whos_turn().playername}'s Hand: ${whos_turn().cardsinhand.length}`
+    `${playerWhosTurnItIs?.playername}'s Hand: ${playerWhosTurnItIs?.cardsinhand.length}`
   );
 
   console.log(`Discard Pile: ${discard_pile.length}`);
@@ -1087,7 +1116,7 @@ export function solve(
   guessedCrushIndex: number,
   number_of_players: number
 ): void {
-  if (whos_turn().guessed_this_turn) {
+  if (playerWhosTurnItIs?.guessed_this_turn) {
     console.log("You cannot guess more than once per turn.");
     return;
   }
@@ -1107,15 +1136,13 @@ export function solve(
       ) {
         console.log(`${crushCard.name} is your crush!\n`);
         console.log(
-          `Congratulations! ${whos_turn().playername} (Player ${
-            whos_turn().playernumber
-          }) has won the game.`
+          `Congratulations! ${playerWhosTurnItIs?.playername} (Player ${playerWhosTurnItIs?.playernumber}) has won the game.`
         );
         console.log("Game Over!");
         console.log(
           "Thank you for playing! I hope you had fun.\n                                  - Old Kid"
         );
-        if (number_of_players > 1) whos_turn().guessed_this_turn = true;
+        if (number_of_players > 1) playerWhosTurnItIs!.guessed_this_turn = true;
         return;
       }
       if (
@@ -1123,7 +1150,7 @@ export function solve(
         solve_choice === card.name.toLowerCase()
       ) {
         console.log("Wrong boy, try again!");
-        if (number_of_players > 1) whos_turn().guessed_this_turn = true;
+        if (number_of_players > 1) playerWhosTurnItIs!.guessed_this_turn = true;
         return;
       }
     }
@@ -1189,8 +1216,8 @@ function playerless_game_loop(): void {
 
     if (choice.includes("dial") && choice !== "redial") {
       // because it may also include the number - thats why its not in the switch block
-      const last_dialed_boy = call_number(choice, false);
-      clue_reveal(last_dialed_boy);
+      const last_dialed_boy = call_number(choice);
+      clue_reveal(last_dialed_boy, false);
       dialed_discard(last_dialed_boy!);
       dialed_draw();
       choice = "null";
