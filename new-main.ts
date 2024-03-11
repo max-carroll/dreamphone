@@ -469,6 +469,7 @@ class PrettyTable {
   }
 }
 
+// MAX: Required for stats only
 function boy_attribute_table(): void {
   const notepad = new PrettyTable([
     "Called?",
@@ -1196,7 +1197,6 @@ function solve(crush: number, number_of_players: number): void {
     "You think you know who your crush is, huh?\nType your guess to check (name or phone#).\nYou can also look at your notebook by entering ('notebook')."
   );
   const crush_object = card_list[crush];
-  let valid_solve_input = false;
 
   while (true) {
     const solve_choice = prompt("").toLowerCase();
@@ -1284,9 +1284,8 @@ function game_loop(): void {
     print_current_player_hand();
     check_decks();
     console.log(
-      white_out(
-        "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')"
-      ),
+      "Commands: ('dial') - ('notepad') - ('pvp') - ('solve') - ('redial') - ('end')",
+
       "\n"
     );
     let choice: string = prompt("").toLowerCase();
@@ -1310,14 +1309,10 @@ function game_loop(): void {
         case "count":
           count();
           break;
-        case "pvp":
+        case "pvp": // Player vs player card
           use_pvp();
           break;
-        case "show":
-          //   show_deck();
-          //   show_hand();
-          //   show_discard();
-          break;
+
         case "redial":
           if (!last_dialed_boy) {
             console.log("no call made yet");
@@ -1329,7 +1324,7 @@ function game_loop(): void {
           }
           break;
         case "notepad":
-          boy_attribute_table();
+          boy_attribute_table(); // MAX: Required for stats only
           break;
         case "end":
           end_turn(number_of_players);
