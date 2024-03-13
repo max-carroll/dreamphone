@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./App.css";
 import { card_list } from "./cards";
@@ -19,7 +19,7 @@ function App() {
   const sdk = new DreamPhoneSdk(card_list);
 
   const handleTextInput = (e: KeyboardEvent) => {
-    const validKeys = "1234567890*#";
+    const validKeys = "1234567890*#-";
 
     if (!validKeys.includes(e.key)) {
       console.log("wrong key pressed");
@@ -32,12 +32,16 @@ function App() {
 
     // it must be a number now
 
-    if (num.length === 8) {
-      // call
-    }
-
     setNum(num + e.key);
   };
+
+  React.useEffect(() => {
+    if (num.length === 8) {
+      // call
+
+      sdk.dialNumber(num);
+    }
+  }, [num]);
 
   document.addEventListener("keydown", handleTextInput);
 

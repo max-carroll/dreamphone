@@ -47,7 +47,7 @@ let pvp_list = [
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num
 let crushIndex = 0; // initalizes game crush global var
-export let crushCard: Card;
+let crushCard: Card;
 let allClues: Array<Card> = [];
 let playerWhosTurnItIs: Player | undefined;
 
