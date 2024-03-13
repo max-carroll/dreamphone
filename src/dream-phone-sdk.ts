@@ -1,7 +1,6 @@
 import {
   new_game_crush,
   consolidateDiscardPileIfNeedBe,
-  Card,
   call_number,
   clue_reveal,
   dialed_discard,
@@ -12,10 +11,11 @@ import {
   use_pvp,
   crushCard,
   end_turn,
-} from "../new-main";
-import { shuffle } from "../utils";
+} from "./unrefactored/new-main";
+import { Card } from "./types";
+import { shuffle } from "./utils";
 
-class DreamPhoneSdk {
+export class DreamPhoneSdk {
   private crushCard: Card;
   private crushIndex: number;
 

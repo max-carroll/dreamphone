@@ -8,7 +8,6 @@ import {
   print_whos_turn,
   print_current_player_hand,
   consolidateDiscardPileIfNeedBe,
-  Card,
   call_number,
   clue_reveal,
   dialed_discard,
@@ -18,6 +17,7 @@ import {
   use_pvp,
   end_turn,
 } from "./new-main";
+import { Card } from "../types";
 import { card_list, whos_turn, prompt } from "./new-main";
 
 // functions;
