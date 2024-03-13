@@ -1,3 +1,15 @@
+export enum Response {
+  no_reveal = "no_reveal",
+  hangout_reveal = "hangout_reveal",
+  sport_reveal = "sport_reveal",
+  food_reveal = " food_reveal",
+  clothing_reveal = "clothing_reveal",
+}
+export type Clue = {
+  value: string;
+  type: Response;
+};
+
 export class Player {
   playernumber: number;
   cardsinhand: Card[]; // Assuming cardsinhand can hold any type of data
@@ -38,7 +50,7 @@ export class Card {
   sport: string;
   food: string;
   clothing: string;
-  clue_to_reveal: string; // Assuming clue_to_reveal is a string
+  clue_to_reveal: Clue; // Assuming clue_to_reveal is a string
   first_call: boolean;
   curse_bucket: any; // Assuming curse_bucket can hold any type of data
 
@@ -49,7 +61,7 @@ export class Card {
     sport: string,
     food: string,
     clothing: string,
-    clue_to_reveal: string,
+
     first_call: boolean,
     curse_bucket: any
   ) {
@@ -59,7 +71,7 @@ export class Card {
     this.sport = sport;
     this.food = food;
     this.clothing = clothing;
-    this.clue_to_reveal = clue_to_reveal;
+    this.clue_to_reveal = { type: Response.no_reveal, value: "not-set" };
     this.first_call = first_call;
     this.curse_bucket = curse_bucket;
   }

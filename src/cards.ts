@@ -8,7 +8,7 @@ const c0 = new Card(
   "null",
   "Cookies",
   "Blue Jeans",
-  "",
+
   true,
   []
 );
@@ -19,7 +19,7 @@ const c1 = new Card(
   "null",
   "Ice Cream",
   "Tie",
-  "",
+
   true,
   []
 );
@@ -30,7 +30,7 @@ const c2 = new Card(
   "null",
   "Ice Cream",
   "Jacket",
-  "",
+
   true,
   []
 );
@@ -41,7 +41,7 @@ const c3 = new Card(
   "null",
   "Cookies",
   "Tie",
-  "",
+
   true,
   []
 );
@@ -52,7 +52,7 @@ const c4 = new Card(
   "null",
   "Hot Dogs",
   "Jacket",
-  "",
+
   true,
   []
 );
@@ -63,7 +63,7 @@ const c5 = new Card(
   "null",
   "Pizza",
   "Glasses",
-  "",
+
   true,
   []
 );
@@ -74,7 +74,7 @@ const c6 = new Card(
   "null",
   "Pizza",
   "Tie",
-  "",
+
   true,
   []
 );
@@ -85,7 +85,7 @@ const c7 = new Card(
   "null",
   "Hot Dogs",
   "Blue Jeans",
-  "",
+
   true,
   []
 );
@@ -96,7 +96,7 @@ const c8 = new Card(
   "null",
   "Candy",
   "Tie",
-  "",
+
   true,
   []
 );
@@ -107,7 +107,7 @@ const c9 = new Card(
   "null",
   "Popcorn",
   "Blue Jeans",
-  "",
+
   true,
   []
 );
@@ -118,7 +118,7 @@ const c10 = new Card(
   "null",
   "Candy",
   "Blue Jeans",
-  "",
+
   true,
   []
 );
@@ -129,7 +129,7 @@ const c11 = new Card(
   "null",
   "Popcorn",
   "Jacket",
-  "",
+
   true,
   []
 );
@@ -140,7 +140,7 @@ const c12 = new Card(
   "Baseball",
   "null",
   "Hat",
-  "",
+
   true,
   []
 );
@@ -151,7 +151,7 @@ const c13 = new Card(
   "Baseball",
   "null",
   "Glasses",
-  "",
+
   true,
   []
 );
@@ -162,7 +162,7 @@ const c14 = new Card(
   "Skateboarding",
   "null",
   "Jacket",
-  "",
+
   true,
   []
 );
@@ -173,7 +173,7 @@ const c15 = new Card(
   "Skateboarding",
   "null",
   "Anything Yellow",
-  "",
+
   true,
   []
 );
@@ -184,7 +184,7 @@ const c16 = new Card(
   "Volleyball",
   "null",
   "Anything Yellow",
-  "",
+
   true,
   []
 );
@@ -195,7 +195,7 @@ const c17 = new Card(
   "Volleyball",
   "null",
   "Hat",
-  "",
+
   true,
   []
 );
@@ -206,7 +206,7 @@ const c18 = new Card(
   "Surfing",
   "null",
   "Anything Yellow",
-  "",
+
   true,
   []
 );
@@ -217,7 +217,7 @@ const c19 = new Card(
   "Surfing",
   "null",
   "Hat",
-  "",
+
   true,
   []
 );
@@ -228,7 +228,7 @@ const c20 = new Card(
   "Basketball",
   "null",
   "Anything Yellow",
-  "",
+
   true,
   []
 );
@@ -239,7 +239,7 @@ const c21 = new Card(
   "Basketball",
   "null",
   "Glasses",
-  "",
+
   true,
   []
 );
@@ -250,7 +250,7 @@ const c22 = new Card(
   "Tennis",
   "null",
   "Hat",
-  "",
+
   true,
   []
 );
@@ -261,7 +261,7 @@ const c23 = new Card(
   "Tennis",
   "null",
   "Glasses",
-  "",
+
   true,
   []
 );
