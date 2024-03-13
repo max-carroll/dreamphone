@@ -18,6 +18,10 @@ function App() {
 
   const sdk = new DreamPhoneSdk(card_list);
 
+  sdk.test_dialEveryone();
+
+  // no bad clues
+
   const handleTextInput = (e: KeyboardEvent) => {
     const validKeys = "1234567890*#-";
 

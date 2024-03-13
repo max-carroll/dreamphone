@@ -1,15 +1,13 @@
-// import {
-//   consolidateDiscardPileIfNeedBe,
-//   clue_reveal,
-//   dialed_discard,
-//   dialed_draw,
-//   number_of_players,
-//   count,
-//   use_pvp,
-//   end_turn,
-// } from "./unrefactored/new-main";
 import { Card } from "./types";
 import { shuffle } from "./utils";
+
+enum Response {
+  no_reveal = "no_reveal",
+  hangout_reveal = "hangout_reveal",
+  sport_reveal = "sport_reveal",
+  food_reveal = " food_reveal",
+  clothing_reveal = "clothing_reveal",
+}
 
 export class DreamPhoneSdk {
   private crushCard: Card;
@@ -63,6 +61,10 @@ export class DreamPhoneSdk {
     return [this.crushIndex, this.crushCard];
   }
 
+  public test_dialEveryone() {
+    this.card_list.forEach((c) => this.dialNumber(c.phonenum));
+  }
+
   // Was formerly call_number, I've deleted game mechanics
   private getBoyByPhoneNumber(phoneNumber: string): Card | undefined {
     const boyToCall = this.card_list.find((b) => b.phonenum === phoneNumber);
@@ -75,19 +77,19 @@ export class DreamPhoneSdk {
   }
 
   // was formerly clue_reveal
-  private clue_reveal(boy: Card | undefined): string | undefined {
+  private clue_reveal(boy: Card | undefined) {
     if (!boy) return;
 
-    let response: string | undefined;
+    let response: Response | undefined;
 
-    // Rejection check:
+    // Rejection check: // Max we can set clue to reveal to null earlier and make it say. Im not telling
     if (
       boy.clue_to_reveal === this.crushCard.hangout ||
       boy.clue_to_reveal === this.crushCard.sport ||
       boy.clue_to_reveal === this.crushCard.food ||
       boy.clue_to_reveal === this.crushCard.clothing
     ) {
-      response = "no_reveal";
+      response = Response.no_reveal;
     }
 
     // Type of reveal check:
@@ -96,10 +98,12 @@ export class DreamPhoneSdk {
     );
 
     for (const card of no_crush_list) {
-      if (boy.clue_to_reveal === card.hangout) response = "hangout_reveal";
-      if (boy.clue_to_reveal === card.sport) response = "sport_reveal";
-      if (boy.clue_to_reveal === card.food) response = "food_reveal";
-      if (boy.clue_to_reveal === card.clothing) response = "clothing_reveal";
+      if (boy.clue_to_reveal === card.hangout)
+        response = Response.hangout_reveal;
+      if (boy.clue_to_reveal === card.sport) response = Response.sport_reveal;
+      if (boy.clue_to_reveal === card.food) response = Response.food_reveal;
+      if (boy.clue_to_reveal === card.clothing)
+        response = Response.clothing_reveal;
     }
 
     if (boy.first_call) {
@@ -112,11 +116,12 @@ export class DreamPhoneSdk {
 
     // MAX: TODO make response an enum
 
-    if (response === "hangout_reveal")
+    if (response === Response.hangout_reveal)
       console.log("I know where he hangs out,");
-    if (response === "sport_reveal") console.log("He is very athletic,");
-    if (response === "food_reveal") console.log("He eats a lot of food,");
-    if (response === "clothing_reveal")
+    if (response === Response.sport_reveal) console.log("He is very athletic,");
+    if (response === Response.food_reveal)
+      console.log("He eats a lot of food,");
+    if (response === Response.clothing_reveal)
       console.log("He looks good in whatever he wears,");
 
     let grammar: string = "";
@@ -124,19 +129,19 @@ export class DreamPhoneSdk {
       grammar = "a";
     }
 
-    if (response === "hangout_reveal")
+    if (response === Response.hangout_reveal)
       console.log(`but he doesn't hang out at ${boy.clue_to_reveal}.`, "\n");
-    if (response === "sport_reveal")
+    if (response === Response.sport_reveal)
       console.log(
         `but he doesn't like ${boy.clue_to_reveal.toLowerCase()}.`,
         "\n"
       );
-    if (response === "food_reveal")
+    if (response === Response.food_reveal)
       console.log(
         `but he hates the taste of ${boy.clue_to_reveal.toLowerCase()}.`,
         "\n"
       );
-    if (response === "clothing_reveal")
+    if (response === Response.clothing_reveal)
       console.log(
         `but he doesn't wear ${grammar} ${boy.clue_to_reveal.toLowerCase()}.`,
         "\n"
@@ -145,9 +150,6 @@ export class DreamPhoneSdk {
     // this.allClues.push(boy); // TODO reinstate
 
     boy.first_call = false;
-    let choice: string = "null";
-
-    return choice;
   }
 }
 
