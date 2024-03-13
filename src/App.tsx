@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+// import { DreamPhoneSdk } from "./dream-phone-sdk";
 
 function Button({ children }: { children: React.ReactNode }) {
   return <div className="button">{children}</div>;
@@ -13,6 +14,8 @@ function Row({ children }: { children: React.ReactNode }) {
 function App() {
   const [num, setNum] = useState("");
 
+  // const sdk = new DreamPhoneSdk();
+
   const handleTextInput = (e: KeyboardEvent) => {
     const validKeys = "1234567890*#";
 
@@ -20,6 +23,13 @@ function App() {
       console.log("wrong key pressed");
       return;
     }
+
+    // if key * or hash
+
+    // if its game restart, although that may be handled by another function?
+
+    // it must be a number now
+
     if (num.length === 8) {
       // call
     }

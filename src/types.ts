@@ -1,5 +1,3 @@
-import { Card, Pvp_Cards } from "./types";
-
 export class Player {
   playernumber: number;
   cardsinhand: Card[]; // Assuming cardsinhand can hold any type of data

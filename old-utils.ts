@@ -16,9 +16,9 @@ import {
   count,
   use_pvp,
   end_turn,
-} from "./new-main";
-import { Card } from "../types";
-import { card_list, whos_turn, prompt } from "./new-main";
+} from "./src/unrefactored/new-main";
+import { Card } from "./src/types";
+import { card_list } from "./src/cards";
 
 // functions;
 export function clear_screen() {
