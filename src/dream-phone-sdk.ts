@@ -12,16 +12,23 @@ import {
   use_pvp,
   crushCard,
   end_turn,
-} from "./new-main";
-import { shuffle } from "./utils";
+} from "../new-main";
+import { shuffle } from "../utils";
 
 class DreamPhoneSdk {
   private crushCard: Card;
   private crushIndex: number;
 
-  constructor(private card_list: Card[]) {}
+  constructor(private card_list: Card[]) {
+    const [index, card] = this.startNewGame();
 
-  public startNewGame() {}
+    this.crushCard = card;
+    this.crushIndex = index;
+  }
+
+  public startNewGame(): [number, Card] {
+    return this.newGameCrush();
+  }
 
   public dialNumber() {}
 
@@ -31,7 +38,7 @@ class DreamPhoneSdk {
 
   public speakerPhone() {}
 
-  private newGameCrush(): Card {
+  private newGameCrush(): [number, Card] {
     const clue_list: string[] = []; // makes bucket to hold all valid clues in
     this.crushIndex = Math.floor(Math.random() * this.card_list.length); // rng a boy from the card list to be the crush, adjusting len from starting at 1 while list index starts at 0
     this.crushCard = this.card_list[this.crushIndex];
@@ -51,7 +58,7 @@ class DreamPhoneSdk {
       // distributes all clues to all cards' "clue to reveal" player object attribute
       this.card_list[i].clue_to_reveal = uniqueClues[i];
     }
-    return this.crushCard;
+    return [this.crushIndex, this.crushCard];
   }
 }
 function dreamPhoneSdk() {
@@ -71,7 +78,7 @@ function dreamPhoneSdk() {
 
     switch (choice) {
       case "solve":
-        solve(crush, number_of_players);
+        // solve(this.crushIndex, number_of_players);
         break;
       case "count":
         count();
