@@ -1,8 +1,12 @@
-import promptSync from "prompt-sync";
+// import promptSync from "prompt-sync";
 import { shuffle } from "./utils";
 // import { , clear_screen,  } from "./old-utils";
 
-export const prompt = promptSync();
+// export const prompt = promptSync();
+
+function prompt(asdf: string) {
+  return asdf;
+}
 
 class Player {
   playernumber: number;
@@ -46,7 +50,7 @@ let player4 = new Player(4, [], false, "", [], false, false, [], false);
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num
 let crushIndex = 0; // initalizes game crush global var
-let crushCard: Card;
+export let crushCard: Card;
 let allClues: Array<Card> = [];
 let playerWhosTurnItIs: Player | undefined;
 
@@ -431,9 +435,9 @@ let pvp_list = [
 
 // Game State
 let game_deck = [...card_list]; // # this clones from the master list for the "in game" deck. Use game_deck when moving stuff around, use card_list as universal master ref)
-let in_hand: Array<Card> = []; // # initializes player hand as empty
+
 let discard_pile: Array<Card> = []; // # initializes discard pile as empty
-let number_of_players = 0;
+export let number_of_players = 0;
 
 export function new_game_crush(): number {
   const clue_list: string[] = []; // makes bucket to hold all valid clues in
@@ -860,7 +864,7 @@ export function use_pvp(): void {
 
 export function call_number(choice: string): Card | undefined {
   if (!playerWhosTurnItIs) {
-    const [action, selector] = choice.split(" ");
+    const [_action, selector] = choice.split(" ");
 
     const boyToCall = card_list.find(
       (b) =>
@@ -939,12 +943,6 @@ export function clue_reveal(
   last_dialed_boy: Card | undefined,
   isPlayerGame = true
 ): string | undefined {
-  try {
-    last_dialed_boy;
-  } catch (error) {
-    last_dialed_boy = undefined;
-  }
-
   if (!last_dialed_boy) return;
 
   let response: string | undefined;
@@ -1254,7 +1252,3 @@ function playerless_game_loop(): void {
     }
   }
 }
-
-playerless_game_loop();
-
-// game_loop();
