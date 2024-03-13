@@ -1,5 +1,5 @@
 // import promptSync from "prompt-sync";
-import { pvp_list } from "../cards";
+
 import { card_list } from "../cards";
 import { Card, Pvp_Cards } from "../types";
 import { Player } from "../types";
@@ -16,6 +16,33 @@ export let player1 = new Player(1, [], false, "", [], false, false, [], false);
 export let player2 = new Player(2, [], false, "", [], false, false, [], false);
 export let player3 = new Player(3, [], false, "", [], false, false, [], false);
 export let player4 = new Player(4, [], false, "", [], false, false, [], false);
+
+let pvp0 = new Pvp_Cards("hangup", player1, [], "Mom Says Hang up!");
+let pvp1 = new Pvp_Cards("hangup", player2, [], "Mom Says Hang up!");
+let pvp2 = new Pvp_Cards("hangup", player3, [], "Mom Says Hang up!");
+let pvp3 = new Pvp_Cards("hangup", player4, [], "Mom Says Hang up!");
+let pvp4 = new Pvp_Cards("share_secret", player1, [], "Share a Secret");
+let pvp5 = new Pvp_Cards("share_secret", player2, [], "Share a Secret");
+let pvp6 = new Pvp_Cards("share_secret", player3, [], "Share a Secret");
+let pvp7 = new Pvp_Cards("share_secret", player4, [], "Share a Secret");
+let pvp8 = new Pvp_Cards("speakerphone", player1, [], "Speakerphone");
+let pvp9 = new Pvp_Cards("speakerphone", player2, [], "Speakerphone");
+let pvp10 = new Pvp_Cards("speakerphone", player3, [], "Speakerphone");
+let pvp11 = new Pvp_Cards("speakerphone", player4, [], "Speakerphone");
+let pvp_list = [
+  pvp0,
+  pvp1,
+  pvp2,
+  pvp3,
+  pvp4,
+  pvp5,
+  pvp6,
+  pvp7,
+  pvp8,
+  pvp9,
+  pvp10,
+  pvp11,
+];
 
 let all_player_list = [player1, player2, player3, player4]; // all possible players in the game
 let player_list: Array<Player> = []; // a list built out by the player's choice of player num

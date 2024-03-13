@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
+import { card_list } from "./cards";
+import { DreamPhoneSdk } from "./dream-phone-sdk";
 // import { DreamPhoneSdk } from "./dream-phone-sdk";
 
 function Button({ children }: { children: React.ReactNode }) {
@@ -14,7 +16,7 @@ function Row({ children }: { children: React.ReactNode }) {
 function App() {
   const [num, setNum] = useState("");
 
-  // const sdk = new DreamPhoneSdk();
+  const sdk = new DreamPhoneSdk(card_list);
 
   const handleTextInput = (e: KeyboardEvent) => {
     const validKeys = "1234567890*#";
