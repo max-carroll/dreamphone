@@ -21,6 +21,7 @@ export class DreamPhoneSdk {
 
   public dialNumber(phoneNumber: string) {
     this.redialNumber = phoneNumber;
+    console.log(`dialing ${phoneNumber}`);
     const boy = this.getBoyByPhoneNumber(phoneNumber); // MAX Todo, this could be set to the last dialed boy here?
 
     if (boy) {
@@ -87,10 +88,12 @@ export class DreamPhoneSdk {
 
   // Was formerly call_number, I've deleted game mechanics
   private getBoyByPhoneNumber(phoneNumber: string): Card | undefined {
-    const boyToCall = this.card_list.find((b) => b.phonenum === phoneNumber);
+    const boyToCall = this.card_list.find(
+      (b) => b.phonenum.replace("-", "") === phoneNumber
+    );
 
     for (let x = 0; x < 3; x++) {
-      // console.log("*ring*");
+      console.log("*ring*");
     }
 
     return boyToCall;
@@ -145,3 +148,19 @@ export class DreamPhoneSdk {
     boy.first_call = false;
   }
 }
+
+/**
+ * TODO:
+ *
+ * Get Guess button working
+ * Get Redial button working
+ * Debug button for view all answers
+ * Get all clues as a table/ debug info
+ */
+
+/**
+ * Architecture
+ *
+ * Button Sounds UI layer
+ *
+ */

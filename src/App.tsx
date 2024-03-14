@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import "./App.css";
 import { card_list } from "./cards";
 import { DreamPhoneSdk } from "./dream-phone-sdk";
+import { sleep } from "./utils";
 // import { DreamPhoneSdk } from "./dream-phone-sdk";
 
 function Button({ children }: { children: React.ReactNode }) {
@@ -15,39 +16,50 @@ function Row({ children }: { children: React.ReactNode }) {
 
 function App() {
   const [num, setNum] = useState("");
+  const [sdk] = useState(new DreamPhoneSdk(card_list));
 
-  const sdk = new DreamPhoneSdk(card_list);
+  const handleTextInput = useCallback(
+    async (e: KeyboardEvent) => {
+      const validKeys = "1234567890*#";
 
-  sdk.test_dialEveryone();
+      if (!validKeys.includes(e.key)) {
+        console.log("wrong key pressed");
+        return;
+      }
 
-  // no bad clues
+      // if key * (redial)
 
-  const handleTextInput = (e: KeyboardEvent) => {
-    const validKeys = "1234567890*#-";
+      // if key 0 (speaker button)
 
-    if (!validKeys.includes(e.key)) {
-      console.log("wrong key pressed");
-      return;
-    }
+      // if hash (guess button)
 
-    // if key * or hash
+      // if its game restart, although that may be handled by another function?
 
-    // if its game restart, although that may be handled by another function?
+      // it must be a number now
 
-    // it must be a number now
+      // states (e.g. after entering number, we should be in a call state, then we should go back to entry state)
 
-    setNum(num + e.key);
-  };
+      const newNum = num + e.key;
+      if (newNum.length === 7) {
+        sdk.dialNumber(newNum);
 
-  React.useEffect(() => {
-    if (num.length === 8) {
-      // call
+        await sleep(3000);
+        setNum("");
+        // setNum("");
+      } else {
+        setNum(newNum);
+      }
+    },
+    [num, sdk]
+  );
 
-      sdk.dialNumber(num);
-    }
-  }, [num]);
+  useEffect(() => {
+    document.addEventListener("keydown", handleTextInput);
 
-  document.addEventListener("keydown", handleTextInput);
+    return () => document.removeEventListener("keydown", handleTextInput);
+  }, [handleTextInput]);
+
+  // sdk.test_dialEveryone(); // Extract to button
 
   return (
     <div className="App-header">
