@@ -90,3 +90,8 @@ export class Pvp_Cards {
     this.long_name = long_name;
   }
 }
+
+export type DebugInfo = {
+  crushCard: Card;
+  cardList: Card[];
+};

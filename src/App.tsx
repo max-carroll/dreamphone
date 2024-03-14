@@ -4,7 +4,6 @@ import "./App.css";
 import { card_list } from "./cards";
 import { DreamPhoneSdk } from "./dream-phone-sdk";
 import { sleep } from "./utils";
-// import { DreamPhoneSdk } from "./dream-phone-sdk";
 
 function Button({ children }: { children: React.ReactNode }) {
   return <div className="button">{children}</div>;
@@ -14,12 +13,26 @@ function Row({ children }: { children: React.ReactNode }) {
   return <div className="row">{children}</div>;
 }
 
+const sdk = new DreamPhoneSdk(card_list);
+
+const waitTime = 1000;
+
+enum PhoneState {
+  READY_FOR_DIAL,
+  CALLING,
+  GUESS,
+}
+
 function App() {
   const [num, setNum] = useState("");
-  const [sdk] = useState(new DreamPhoneSdk(card_list));
+  const [phoneState, setPhoneState] = useState(PhoneState.READY_FOR_DIAL);
+
+  const [debugInfo] = useState(sdk.getDebugInfo());
 
   const handleTextInput = useCallback(
     async (e: KeyboardEvent) => {
+      if (phoneState === PhoneState.CALLING) return;
+
       const validKeys = "1234567890*#";
 
       if (!validKeys.includes(e.key)) {
@@ -27,25 +40,42 @@ function App() {
         return;
       }
 
-      // if key * (redial)
+      if (e.key === "*") {
+        sdk.redialLastNumber();
+        setNum("REDIAL");
+        await sleep(waitTime);
+        setNum("");
+        return;
+      }
 
       // if key 0 (speaker button)
 
-      // if hash (guess button)
-
+      if (e.key === "#") {
+        setPhoneState(PhoneState.GUESS);
+        setNum("GUESS");
+        await sleep(waitTime);
+        setNum("");
+      }
       // if its game restart, although that may be handled by another function?
 
-      // it must be a number now
+      let newNum = num;
+      if ("123456789".includes(e.key)) {
+        newNum += e.key;
+      }
 
-      // states (e.g. after entering number, we should be in a call state, then we should go back to entry state)
-
-      const newNum = num + e.key;
       if (newNum.length === 7) {
-        sdk.dialNumber(newNum);
-
-        await sleep(3000);
+        if (phoneState === PhoneState.READY_FOR_DIAL) {
+          sdk.dialNumber(newNum);
+          setNum("CALLING");
+          await sleep(waitTime);
+        }
+        if (phoneState === PhoneState.GUESS) {
+          sdk.guess(newNum);
+          setNum("CALLING");
+          setPhoneState(PhoneState.READY_FOR_DIAL);
+          await sleep(waitTime);
+        }
         setNum("");
-        // setNum("");
       } else {
         setNum(newNum);
       }
@@ -78,6 +108,10 @@ function App() {
         <Row>
           <Button>*</Button> <Button>0</Button> <Button>#</Button>
         </Row>
+      </div>
+
+      <div className="debugInfo">
+        Crush <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
       </div>
     </div>
   );

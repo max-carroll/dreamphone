@@ -1,4 +1,4 @@
-import { Response } from "./types";
+import { DebugInfo, Response } from "./types";
 import { Clue } from "./types";
 import { Card } from "./types";
 import { shuffle } from "./utils";
@@ -31,11 +31,30 @@ export class DreamPhoneSdk {
     }
   }
 
-  public redialLastNumber() {}
+  public redialLastNumber() {
+    if (this.redialNumber) {
+      this.dialNumber(this.redialNumber);
+    }
+  }
 
-  public guess() {}
+  public guess(phoneNum: string) {
+    if (
+      this.crushCard.phonenum.replace("-", "") === phoneNum.replace("-", "")
+    ) {
+      console.log("you're right, I like you");
+    } else {
+      console.log("Its not me!!!");
+    }
+  }
 
   public speakerPhone() {}
+
+  public getDebugInfo(): DebugInfo {
+    return {
+      crushCard: this.crushCard,
+      cardList: this.card_list,
+    };
+  }
 
   private newGameCrush(): [number, Card] {
     const clue_list: Array<Clue> = []; // makes bucket to hold all valid clues in
