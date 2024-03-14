@@ -51,8 +51,8 @@ export class Card {
   food: string;
   clothing: string;
   clue_to_reveal: Clue; // Assuming clue_to_reveal is a string
-  first_call: boolean;
-  curse_bucket: any; // Assuming curse_bucket can hold any type of data
+  first_call: boolean = true;
+  curse_bucket = []; // Assuming curse_bucket can hold any type of data
 
   constructor(
     name: string,
@@ -60,10 +60,7 @@ export class Card {
     hangout: string,
     sport: string,
     food: string,
-    clothing: string,
-
-    first_call: boolean,
-    curse_bucket: any
+    clothing: string
   ) {
     this.name = name;
     this.phonenum = phonenum;
@@ -72,8 +69,6 @@ export class Card {
     this.food = food;
     this.clothing = clothing;
     this.clue_to_reveal = { type: Response.no_reveal, value: "not-set" };
-    this.first_call = first_call;
-    this.curse_bucket = curse_bucket;
   }
 }
 

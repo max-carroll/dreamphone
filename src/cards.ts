@@ -7,10 +7,7 @@ const c0 = new Card(
   "Crosstown Mall",
   "null",
   "Cookies",
-  "Blue Jeans",
-
-  true,
-  []
+  "Blue Jeans"
 );
 const c1 = new Card(
   "George",
@@ -18,10 +15,7 @@ const c1 = new Card(
   "Crosstown Mall",
   "null",
   "Ice Cream",
-  "Tie",
-
-  true,
-  []
+  "Tie"
 );
 const c2 = new Card(
   "Dale",
@@ -29,10 +23,7 @@ const c2 = new Card(
   "Crosstown Mall",
   "null",
   "Ice Cream",
-  "Jacket",
-
-  true,
-  []
+  "Jacket"
 );
 const c3 = new Card(
   "Alan",
@@ -40,10 +31,7 @@ const c3 = new Card(
   "Crosstown Mall",
   "null",
   "Cookies",
-  "Tie",
-
-  true,
-  []
+  "Tie"
 );
 const c4 = new Card(
   "James",
@@ -51,10 +39,7 @@ const c4 = new Card(
   "E.A.T.S. Snack Shop",
   "null",
   "Hot Dogs",
-  "Jacket",
-
-  true,
-  []
+  "Jacket"
 );
 const c5 = new Card(
   "Phil",
@@ -62,10 +47,7 @@ const c5 = new Card(
   "E.A.T.S. Snack Shop",
   "null",
   "Pizza",
-  "Glasses",
-
-  true,
-  []
+  "Glasses"
 );
 const c6 = new Card(
   "Bruce",
@@ -73,10 +55,7 @@ const c6 = new Card(
   "E.A.T.S. Snack Shop",
   "null",
   "Pizza",
-  "Tie",
-
-  true,
-  []
+  "Tie"
 );
 const c7 = new Card(
   "Tyler",
@@ -84,32 +63,16 @@ const c7 = new Card(
   "E.A.T.S. Snack Shop",
   "null",
   "Hot Dogs",
-  "Blue Jeans",
-
-  true,
-  []
+  "Blue Jeans"
 );
-const c8 = new Card(
-  "Jamal",
-  "555-9877",
-  "Reel Movies",
-  "null",
-  "Candy",
-  "Tie",
-
-  true,
-  []
-);
+const c8 = new Card("Jamal", "555-9877", "Reel Movies", "null", "Candy", "Tie");
 const c9 = new Card(
   "Gary",
   "555-3211",
   "Reel Movies",
   "null",
   "Popcorn",
-  "Blue Jeans",
-
-  true,
-  []
+  "Blue Jeans"
 );
 const c10 = new Card(
   "Dan",
@@ -117,10 +80,7 @@ const c10 = new Card(
   "Reel Movies",
   "null",
   "Candy",
-  "Blue Jeans",
-
-  true,
-  []
+  "Blue Jeans"
 );
 const c11 = new Card(
   "Spencer",
@@ -128,10 +88,7 @@ const c11 = new Card(
   "Reel Movies",
   "null",
   "Popcorn",
-  "Jacket",
-
-  true,
-  []
+  "Jacket"
 );
 const c12 = new Card(
   "Mark",
@@ -139,10 +96,7 @@ const c12 = new Card(
   "Woodland Park",
   "Baseball",
   "null",
-  "Hat",
-
-  true,
-  []
+  "Hat"
 );
 const c13 = new Card(
   "Jason",
@@ -150,10 +104,7 @@ const c13 = new Card(
   "Woodland Park",
   "Baseball",
   "null",
-  "Glasses",
-
-  true,
-  []
+  "Glasses"
 );
 const c14 = new Card(
   "Steve",
@@ -161,10 +112,7 @@ const c14 = new Card(
   "Woodland Park",
   "Skateboarding",
   "null",
-  "Jacket",
-
-  true,
-  []
+  "Jacket"
 );
 const c15 = new Card(
   "John",
@@ -172,10 +120,7 @@ const c15 = new Card(
   "Woodland Park",
   "Skateboarding",
   "null",
-  "Anything Yellow",
-
-  true,
-  []
+  "Anything Yellow"
 );
 const c16 = new Card(
   "Paul",
@@ -183,10 +128,7 @@ const c16 = new Card(
   "High Tide Beach",
   "Volleyball",
   "null",
-  "Anything Yellow",
-
-  true,
-  []
+  "Anything Yellow"
 );
 const c17 = new Card(
   "Tony",
@@ -194,10 +136,7 @@ const c17 = new Card(
   "High Tide Beach",
   "Volleyball",
   "null",
-  "Hat",
-
-  true,
-  []
+  "Hat"
 );
 const c18 = new Card(
   "Wayne",
@@ -205,10 +144,7 @@ const c18 = new Card(
   "High Tide Beach",
   "Surfing",
   "null",
-  "Anything Yellow",
-
-  true,
-  []
+  "Anything Yellow"
 );
 const c19 = new Card(
   "Mike",
@@ -216,10 +152,7 @@ const c19 = new Card(
   "High Tide Beach",
   "Surfing",
   "null",
-  "Hat",
-
-  true,
-  []
+  "Hat"
 );
 const c20 = new Card(
   "Scott",
@@ -227,10 +160,7 @@ const c20 = new Card(
   "Jim's Gym",
   "Basketball",
   "null",
-  "Anything Yellow",
-
-  true,
-  []
+  "Anything Yellow"
 );
 const c21 = new Card(
   "Bob",
@@ -238,10 +168,7 @@ const c21 = new Card(
   "Jim's Gym",
   "Basketball",
   "null",
-  "Glasses",
-
-  true,
-  []
+  "Glasses"
 );
 const c22 = new Card(
   "Carlos",
@@ -249,10 +176,7 @@ const c22 = new Card(
   "Jim's Gym",
   "Tennis",
   "null",
-  "Hat",
-
-  true,
-  []
+  "Hat"
 );
 const c23 = new Card(
   "Matt",
@@ -260,10 +184,7 @@ const c23 = new Card(
   "Jim's Gym",
   "Tennis",
   "null",
-  "Glasses",
-
-  true,
-  []
+  "Glasses"
 );
 // ##global stuff##
 

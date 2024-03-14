@@ -111,10 +111,7 @@ export class DreamPhoneSdk {
     switch (response) {
       case Response.hangout_reveal:
         console.log("I know where he hangs out,");
-        console.log(
-          `but he doesn't hang out at ${boy.clue_to_reveal.value}.`,
-          "\n"
-        );
+        console.log(`but he doesn't hang out at ${boy.clue_to_reveal.value}.`);
         break;
       case Response.clothing_reveal:
         console.log("He looks good in whatever he wears,");
@@ -123,26 +120,23 @@ export class DreamPhoneSdk {
           grammar = "a";
         }
         console.log(
-          `but he doesn't wear ${grammar} ${boy.clue_to_reveal.value.toLowerCase()}.`,
-          "\n"
+          `but he doesn't wear ${grammar} ${boy.clue_to_reveal.value.toLowerCase()}.`
         );
         break;
       case Response.food_reveal:
         console.log("He eats a lot of food,");
         console.log(
-          `but he hates the taste of ${boy.clue_to_reveal.value.toLowerCase()}.`,
-          "\n"
+          `but he hates the taste of ${boy.clue_to_reveal.value.toLowerCase()}.`
         );
         break;
       case Response.sport_reveal:
         console.log("He is very athletic,");
         console.log(
-          `but he doesn't like ${boy.clue_to_reveal.value.toLowerCase()}.`,
-          "\n"
+          `but he doesn't like ${boy.clue_to_reveal.value.toLowerCase()}.`
         );
         break;
       case Response.no_reveal:
-        console.log(`I know who it is, but I'm not telling! Ha ha!`, "\n");
+        console.log(`I know who it is, but I'm not telling! Ha ha!`);
         break;
       default:
         break;
