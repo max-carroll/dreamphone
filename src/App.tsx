@@ -6,8 +6,18 @@ import { DreamPhoneSdk } from "./dream-phone-sdk";
 import { sleep } from "./utils";
 import { Card } from "./types";
 
-function Button({ children }: { children: React.ReactNode }) {
-  return <div className="button">{children}</div>;
+function Button({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: React.MouseEventHandler;
+}) {
+  return (
+    <div className="button" onClick={onClick}>
+      {children}
+    </div>
+  );
 }
 
 function Row({ children }: { children: React.ReactNode }) {
@@ -100,16 +110,24 @@ function App() {
         <div className="number">{num}</div>
 
         <Row>
-          <Button>1</Button> <Button>2</Button> <Button>3</Button>
+          <Button onClick={() => handleKey("1")}>1</Button>{" "}
+          <Button onClick={() => handleKey("2")}>2</Button>{" "}
+          <Button onClick={() => handleKey("3")}>3</Button>
         </Row>
         <Row>
-          <Button>4</Button> <Button>5</Button> <Button>6</Button>
+          <Button onClick={() => handleKey("4")}>4</Button>{" "}
+          <Button onClick={() => handleKey("5")}>5</Button>{" "}
+          <Button onClick={() => handleKey("6")}>6</Button>
         </Row>
         <Row>
-          <Button>7</Button> <Button>8</Button> <Button>9</Button>
+          <Button onClick={() => handleKey("7")}>7</Button>{" "}
+          <Button onClick={() => handleKey("8")}>8</Button>{" "}
+          <Button onClick={() => handleKey("9")}>9</Button>
         </Row>
         <Row>
-          <Button>*</Button> <Button>0</Button> <Button>#</Button>
+          <Button onClick={() => handleKey("*")}>*</Button>{" "}
+          <Button onClick={() => handleKey("0")}>0</Button>{" "}
+          <Button onClick={() => handleKey("#")}>#</Button>
         </Row>
       </div>
 
