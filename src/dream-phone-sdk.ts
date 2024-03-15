@@ -16,47 +16,6 @@ export class DreamPhoneSdk {
   }
 
   public startNewGame(): [number, Card] {
-    return this.newGameCrush();
-  }
-
-  public dialNumber(phoneNumber: string) {
-    this.redialNumber = phoneNumber;
-    console.log(`dialing ${phoneNumber}`);
-    const boy = this.getBoyByPhoneNumber(phoneNumber); // MAX Todo, this could be set to the last dialed boy here?
-
-    if (boy) {
-      this.clue_reveal(boy);
-    } else {
-      console.log("sorry wrong number");
-    }
-  }
-
-  public redialLastNumber() {
-    if (this.redialNumber) {
-      this.dialNumber(this.redialNumber);
-    }
-  }
-
-  public guess(phoneNum: string) {
-    if (
-      this.crushCard.phonenum.replace("-", "") === phoneNum.replace("-", "")
-    ) {
-      console.log("you're right, I like you");
-    } else {
-      console.log("Its not me!!!");
-    }
-  }
-
-  public speakerPhone() {}
-
-  public getDebugInfo(): DebugInfo {
-    return {
-      crushCard: this.crushCard,
-      cardList: this.card_list,
-    };
-  }
-
-  private newGameCrush(): [number, Card] {
     const clue_list: Array<Clue> = []; // makes bucket to hold all valid clues in
     this.crushIndex = Math.floor(Math.random() * this.card_list.length); // rng a boy from the card list to be the crush, adjusting len from starting at 1 while list index starts at 0
     this.crushCard = this.card_list[this.crushIndex];
@@ -101,21 +60,42 @@ export class DreamPhoneSdk {
     return [this.crushIndex, this.crushCard];
   }
 
-  public test_dialEveryone() {
-    this.card_list.forEach((c) => this.dialNumber(c.phonenum));
-  }
-
-  // Was formerly call_number, I've deleted game mechanics
-  private getBoyByPhoneNumber(phoneNumber: string): Card | undefined {
-    const boyToCall = this.card_list.find(
+  public dialNumber(phoneNumber: string) {
+    this.redialNumber = phoneNumber;
+    console.log(`dialing ${phoneNumber}`);
+    const boy = this.card_list.find(
       (b) => b.phonenum.replace("-", "") === phoneNumber
     );
-
-    for (let x = 0; x < 3; x++) {
-      console.log("*ring*");
+    if (boy) {
+      this.clue_reveal(boy);
+    } else {
+      console.log("sorry wrong number");
     }
+  }
 
-    return boyToCall;
+  public redialLastNumber() {
+    if (this.redialNumber) {
+      this.dialNumber(this.redialNumber);
+    }
+  }
+
+  public guess(phoneNum: string) {
+    if (
+      this.crushCard.phonenum.replace("-", "") === phoneNum.replace("-", "")
+    ) {
+      console.log("you're right, I like you");
+    } else {
+      console.log("Its not me!!!");
+    }
+  }
+
+  public speakerPhone() {}
+
+  public getDebugInfo(): DebugInfo {
+    return {
+      crushCard: this.crushCard,
+      cardList: this.card_list,
+    };
   }
 
   // was formerly clue_reveal
@@ -165,6 +145,10 @@ export class DreamPhoneSdk {
     }
 
     boy.first_call = false;
+  }
+
+  public test_dialEveryone() {
+    this.card_list.forEach((c) => this.dialNumber(c.phonenum));
   }
 }
 
