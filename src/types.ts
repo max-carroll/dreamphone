@@ -43,6 +43,16 @@ export class Player {
     this.pvp_this_turn = pvp_this_turn;
   }
 }
+
+export type RawCard = {
+  name: string;
+  phonenum: string;
+  hangout: string;
+  sport: string;
+  food: string;
+  clothing: string;
+};
+
 export class Card {
   name: string;
   phonenum: string;
