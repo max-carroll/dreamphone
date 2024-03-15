@@ -4,6 +4,7 @@ import "./App.css";
 import { card_list } from "./cards";
 import { DreamPhoneSdk } from "./dream-phone-sdk";
 import { sleep } from "./utils";
+import { Card } from "./types";
 
 function Button({ children }: { children: React.ReactNode }) {
   return <div className="button">{children}</div>;
@@ -111,9 +112,35 @@ function App() {
       </div>
 
       <div className="debugInfo">
-        Crush <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
+        {/* Crush <pre>{JSON.stringify(debugInfo, null, 2)}</pre> */}
+
+        <Crush card={debugInfo.crushCard} />
+        {debugInfo.cardList.map((c) => (
+          <Summary card={c} />
+        ))}
       </div>
     </div>
+  );
+}
+
+function Crush({ card }: { card: Card }) {
+  return (
+    <>
+      Crush - {card.name} {card.phonenum} {card.sport ?? ""}{" "}
+      {card.clothing ?? ""} {card.hangout ?? ""} {card.food ?? ""}
+    </>
+  );
+}
+
+function Summary({ card }: { card: Card }) {
+  return (
+    <>
+      <tr>
+        <td>{card.name}</td>
+        <td>{card.phonenum}</td>
+        <td>{card.clue_to_reveal.value}</td>
+      </tr>
+    </>
   );
 }
 
