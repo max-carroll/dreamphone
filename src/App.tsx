@@ -31,58 +31,60 @@ function App() {
   const [debugInfo] = useState(sdk.getDebugInfo());
 
   const handleTextInput = useCallback(
-    async (e: KeyboardEvent) => {
-      if (phoneState === PhoneState.CALLING) return;
-
-      const validKeys = "1234567890*#";
-
-      if (!validKeys.includes(e.key)) {
-        console.log("wrong key pressed");
-        return;
-      }
-
-      if (e.key === "*") {
-        sdk.redialLastNumber();
-        setNum("REDIAL");
-        await sleep(waitTime);
-        setNum("");
-        return;
-      }
-
-      // if key 0 (speaker button)
-
-      if (e.key === "#") {
-        setPhoneState(PhoneState.GUESS);
-        setNum("GUESS");
-        await sleep(waitTime);
-        setNum("");
-      }
-      // if its game restart, although that may be handled by another function?
-
-      let newNum = num;
-      if ("123456789".includes(e.key)) {
-        newNum += e.key;
-      }
-
-      if (newNum.length === 7) {
-        if (phoneState === PhoneState.READY_FOR_DIAL) {
-          sdk.dialNumber(newNum);
-          setNum("CALLING");
-          await sleep(waitTime);
-        }
-        if (phoneState === PhoneState.GUESS) {
-          sdk.guess(newNum);
-          setNum("CALLING");
-          setPhoneState(PhoneState.READY_FOR_DIAL);
-          await sleep(waitTime);
-        }
-        setNum("");
-      } else {
-        setNum(newNum);
-      }
-    },
+    async (e: KeyboardEvent) => handleKey(e.key),
     [num, sdk]
   );
+
+  const handleKey = async (key: string) => {
+    if (phoneState === PhoneState.CALLING) return;
+
+    const validKeys = "1234567890*#";
+
+    if (!validKeys.includes(key)) {
+      console.log("wrong key pressed");
+      return;
+    }
+
+    if (key === "*") {
+      sdk.redialLastNumber();
+      setNum("REDIAL");
+      await sleep(waitTime);
+      setNum("");
+      return;
+    }
+
+    // if key 0 (speaker button)
+
+    if (key === "#") {
+      setPhoneState(PhoneState.GUESS);
+      setNum("GUESS");
+      await sleep(waitTime);
+      setNum("");
+    }
+    // if its game restart, although that may be handled by another function?
+
+    let newNum = num;
+    if ("123456789".includes(key)) {
+      newNum += key;
+    }
+
+    if (newNum.length === 7) {
+      if (phoneState === PhoneState.READY_FOR_DIAL) {
+        sdk.dialNumber(newNum);
+        setNum("CALLING");
+        await sleep(waitTime);
+      }
+      if (phoneState === PhoneState.GUESS) {
+        sdk.guess(newNum);
+        setNum("CALLING");
+        setPhoneState(PhoneState.READY_FOR_DIAL);
+        await sleep(waitTime);
+      }
+      setNum("");
+    } else {
+      setNum(newNum);
+    }
+  };
 
   useEffect(() => {
     document.addEventListener("keydown", handleTextInput);
