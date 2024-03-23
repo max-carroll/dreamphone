@@ -3,10 +3,14 @@ import { Clue } from "./types";
 import { Card } from "./types";
 import { shuffle } from "./utils";
 
+type InternalPhoneState = "engaged" | "ready";
+
 export class DreamPhoneSdk {
   private crushCard: Card;
   private crushIndex: number;
   private redialNumber?: string;
+
+  private state: InternalPhoneState = "ready";
 
   constructor(private card_list: Card[]) {
     const [index, card] = this.startNewGame();
@@ -61,6 +65,9 @@ export class DreamPhoneSdk {
   }
 
   public dialNumber(phoneNumber: string) {
+    if (this.state !== "ready") return;
+    this.state = "engaged";
+
     this.redialNumber = phoneNumber;
     console.log(`dialing ${phoneNumber}`);
     const boy = this.card_list.find(
@@ -71,6 +78,7 @@ export class DreamPhoneSdk {
     } else {
       console.log("sorry wrong number");
     }
+    this.state = "ready";
   }
 
   public redialLastNumber() {
